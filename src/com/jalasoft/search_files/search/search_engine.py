@@ -1,3 +1,6 @@
+"""
+class Search_Engine perform the search on a given path of a given file_name applying all the desired filters
+"""
 import os
 
 
@@ -15,5 +18,6 @@ def print_directory(path):
 
 
 # search_file("D:", "Behave_1.pptx")
-directory_list = print_directory("D:\MauricioZ\\")
+path = "D:\MauricioZ\\"
+directory_list = print_directory(path)
 print(directory_list)
