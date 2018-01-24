@@ -4,8 +4,27 @@ class Search_Engine perform the search on a given path of a given file_name appl
 import os
 
 
-def print_directory(path):
-    return os.listdir(path)
+class Search(object):
+    def __init__(self, file_name=None, path_file='/', criteria=None):
+        """
+        constructor method
+        :param file_name:
+        :param path_file:
+        :param criteria:
+        """
+        self._path_file = path_file
+        self._file_name = file_name
+        self._criteria = criteria
+
+    def print_directory(self):
+        """
+
+        :return: list of files and folders on the given path in which the search object was created
+        """
+        return os.listdir(self._path_file)
+
+
+
 
 # def search_file(path, file_name):
 #     for root, dirs, files in os.walk(path):
@@ -16,8 +35,3 @@ def print_directory(path):
 #         #     print(files)
 #         #     print("exist!!!")
 
-
-# search_file("D:", "Behave_1.pptx")
-path = "D:\MauricioZ\\"
-directory_list = print_directory(path)
-print(directory_list)
