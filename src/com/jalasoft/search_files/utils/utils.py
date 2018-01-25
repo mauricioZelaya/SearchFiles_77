@@ -36,5 +36,6 @@ def is_object_directory(path):
     :param path: the path that will be verified as a directory
     :return: boolean
     """
-    if os.path.isdir(path): return True
-    else: return False
+    if os.path.isdir(path):
+        return True
+    return False
