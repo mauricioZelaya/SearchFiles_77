@@ -32,6 +32,8 @@ class Menu:
 
     def set_search_path(self):
         print("search path")
+        path = input("Insert a root path")
+        print(path)
 
 
     def set_search_file_name(self):
@@ -43,7 +45,7 @@ class Menu:
 
 
     def quit(self):
-        print("Thank you for using your notebook today.")
+        print("Thank you for using search today.")
         sys.exit(0)
 
 
