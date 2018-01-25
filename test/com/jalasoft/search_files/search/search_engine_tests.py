@@ -1,8 +1,8 @@
 """
 class for unit tests
 """
-import pytest
 import os
+import pytest
 from SearchFiles_77.src.com.jalasoft.search_files.search.search_engine import Search
 
 @pytest.mark.search
