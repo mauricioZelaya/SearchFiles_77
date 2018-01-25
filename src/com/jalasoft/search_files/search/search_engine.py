@@ -21,6 +21,9 @@ class Search(object):
         self._file_name = file_name
         self._criteria = criteria
 
+    def set_path(self, path_directory):
+        self._path_file = path_directory
+
     def print_directory(self):
         """
 

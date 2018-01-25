@@ -3,12 +3,15 @@ class Menu displays the all options to search a file, path, archive
 """
 import sys
 
+from SearchFiles_77.src.com.jalasoft.search_files.search.search_engine import Search
+
 
 class Menu:
     """Display a menu and respond to choices when run."""
     def __init__(self):
         self.choices = {"1": self.set_search_path, "2": self.set_search_file_name,
                         "3": self.set_filters, "4": self.quit}
+        self.search_obj = Search()
 
     def display_menu(self):
         """Menu that will be displayed."""
@@ -36,9 +39,13 @@ class Menu:
         print("search path")
         path = input("Insert a root path")
         print(path)
+        self.search_obj.set_path(path)
+        list_d = self.search_obj.print_directory()
+        print(list_d)
 
     def set_search_file_name(self):
         """Display a determinate file."""
+
         print("search file name")
 
     def set_filters(self):
