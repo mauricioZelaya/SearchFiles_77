@@ -1,23 +1,40 @@
 """
-class Search_Engine perform the search on a given path of a given file_name applying all the desired filters
+class Search_Engine perform the search on a given path of a given file_name applying
+all the desired filters
 """
 import os
 
 
-def print_directory(path):
-    return os.listdir(path)
+class Search(object):
+    """
 
-# def search_file(path, file_name):
-#     for root, dirs, files in os.walk(path):
-#         print(root)
-#         # if file_name in files:
-#         #     print("file path directory: %s" % root)
-#         #     print(dirs)
-#         #     print(files)
-#         #     print("exist!!!")
+    :param object  class
+    """
+    def __init__(self, file_name=None, path_file='/', criteria=None):
+        """
+        constructor method
+        :param file_name:
+        :param path_file:
+        :param criteria:
+        """
+        self._path_file = path_file
+        self._file_name = file_name
+        self._criteria = criteria
 
+    def set_path(self, path_directory):
+        self._path_file = path_directory
 
-# search_file("D:", "Behave_1.pptx")
-path = "D:\MauricioZ\\"
-directory_list = print_directory(path)
-print(directory_list)
+    def print_directory(self):
+        """
+
+        :return: list of files and folders on the given path in which the search object was created
+        """
+        list_dir = []
+        for root, dirs, files in os.walk(self._path_file, topdown=False):
+            for value in dirs:
+                list_dir.append(os.path.join(root, value))
+            for value in files:
+                list_dir.append(os.path.join(root, value))
+
+        return list_dir
+
