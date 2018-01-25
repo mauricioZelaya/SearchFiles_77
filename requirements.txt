@@ -1,5 +1,5 @@
 #
 # Libraries/packages
 #
-Pylint==1.7.5
+Pylint==1.8.2
 Pytest==3.3.2
