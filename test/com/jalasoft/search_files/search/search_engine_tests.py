@@ -25,3 +25,15 @@ def test_a_search_is_created_with_path_list_files_in_the_given_path():
     search_engine = Search(path_file=search_path)
     assert isinstance(search_engine, Search)
     assert search_engine.print_directory() is not None
+
+
+@pytest.mark.search
+def test_a_path_is_modified_with_a_given_path():
+    """
+
+    :return:
+    """
+    search_engine = Search()
+    search_path = os.getcwd()
+    search_engine.set_path(search_path)
+    assert search_engine.get_path() == search_path
