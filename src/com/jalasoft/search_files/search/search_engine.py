@@ -21,17 +21,18 @@ class Search(object):
 
         :return: list of files and folders on the given path in which the search object was created
         """
-        return os.listdir(self._path_file)
+        list_dir = []
+        for root, dirs, files in os.walk(self._path_file, topdown=False):
+            # for value in root:
+            #     list_dir.append(value)
+            for value in dirs:
+                list_dir.append(os.path.join(root, value))
+            for value in files:
+                list_dir.append(os.path.join(root, value))
+        print(list_dir)
 
 
 
-
-# def search_file(path, file_name):
-#     for root, dirs, files in os.walk(path):
-#         print(root)
-#         # if file_name in files:
-#         #     print("file path directory: %s" % root)
-#         #     print(dirs)
-#         #     print(files)
-#         #     print("exist!!!")
-
+se = Search('', path_file='C:\\Users\Administrator\Documents\DevFund2\SearchFiles_77\src')
+se.print_directory()
+# print(se)
