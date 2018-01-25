@@ -58,5 +58,5 @@ def test_is_object_not_a_directory():
     :return: None
     """
     path = os.getcwd()
-    path = path + "/home/slevin/something,txt"
+    path = path + "/something,txt"
     assert not utils.is_object_directory(path)
