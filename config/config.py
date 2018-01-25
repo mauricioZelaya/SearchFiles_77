@@ -1,3 +1,6 @@
+"""
+This module is where initial configuration are set
+"""
 import os
 
 

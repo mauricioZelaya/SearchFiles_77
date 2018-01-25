@@ -24,3 +24,13 @@ def test_validate_valid_wildcards_in_path():
 def test_validate_invalid_wildcards_in_path():
     path = "C:\\Use>rs\\Alejandro Alcocer"
     assert utils.is_path_with_valid_values(path) == False
+
+@pytest.mark.utils
+def test_is_object_a_directory():
+    path = "/home/slevin"
+    assert utils.is_object_directory(path)
+
+@pytest.mark.utils
+def test_is_object_a_directory():
+    path = "/home/slevin/something,txt"
+    assert utils.is_object_directory(path) == False
