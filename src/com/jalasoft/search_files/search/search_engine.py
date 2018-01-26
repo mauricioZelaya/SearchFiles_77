@@ -79,4 +79,16 @@ class Search(object):
 # dict = search.create_list_of_ocurrences()
 # print(dict)
 
-
+        # for root, dirs, files in os.walk(self._path_file, topdown=False):
+        #
+        #     for value in dirs:
+        #         file = File()
+        #         file.set_path(os.path.join(root, value))
+        #         file.set_is_file(False)
+        #         file.se_size(os.path.getSize(os.path.join(root, value)))
+        #         list_dir.append(file)
+        #
+        #     for value in files:
+        #         list_dir.append(os.path.join(root, value))
+        #
+        # return list_dir
