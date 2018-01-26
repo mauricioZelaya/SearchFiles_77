@@ -4,6 +4,8 @@ all the desired filters
 """
 import os
 
+from src.com.jalasoft.search_files.search import asset
+
 
 class Search(object):
     """
@@ -59,10 +61,17 @@ class Search(object):
         list_dir = []
         for root, dirs, files in os.walk(self._path_file, topdown=False):
             for value in dirs:
-                list_dir.append(os.path.join(root, value))
+                directory = asset.Folder()
+                directory.set_file_name(os.path.join(root, value)+'\\')
+                directory.set_is_directory(True)
+                list_dir.append(directory)
             for value in files:
-                list_dir.append(os.path.join(root, value))
-
+                file_name = os.path.join(root, value)
+                file = asset.File()
+                file.set_file_name(file_name)
+                file.set_is_directory(False)
+                file.set_file_size(os.path.getsize(file_name))
+                list_dir.append(file)
         return list_dir
 
     def create_list_of_ocurrences(self):
@@ -73,3 +82,8 @@ class Search(object):
                 list_of_found.append(result)
         return list_of_found
 
+
+search = Search(path_file='D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\config\\')
+listM = search.print_directory()
+for value in listM:
+    print(value.get_file_name())
