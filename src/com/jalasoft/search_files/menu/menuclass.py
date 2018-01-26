@@ -3,7 +3,7 @@ class Menu displays the all options to search a file, path, archive
 """
 import sys
 
-from SearchFiles_77.src.com.jalasoft.search_files.search.search_engine import Search
+from src.com.jalasoft.search_files.search.search_engine import Search
 
 
 class Menu:
@@ -41,7 +41,7 @@ class Menu:
         print(path)
         self.search_obj.set_path(path)
         list_d = self.search_obj.print_directory()
-        print(list_d)
+        print('\n'.join(list_d))
 
     def set_search_file_name(self):
         """Display a determinate file."""
