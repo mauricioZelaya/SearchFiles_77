@@ -42,7 +42,6 @@ def _is_path_with_valid_values(path=None):
         for dir in path:
             for char in invalid_values:
                 if char in dir:
-                    print("###############fuck it")
                     return False
     return True
 
