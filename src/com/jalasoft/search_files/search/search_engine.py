@@ -22,7 +22,34 @@ class Search(object):
         self._criteria = criteria
 
     def set_path(self, path_directory):
+        """
+        seth a new path for a new search
+        :param path_directory:
+        :return:
+        """
         self._path_file = path_directory
+
+    def get_path(self):
+        """
+
+        :return:
+        """
+        return self._path_file
+
+    def set_file_name(self, file_name):
+        """
+
+        :param file_name:
+        :return:
+        """
+        self._file_name = file_name
+
+    def get_file_name(self):
+        """
+
+        :return:
+        """
+        return self._file_name
 
     def print_directory(self):
         """
@@ -37,4 +64,12 @@ class Search(object):
                 list_dir.append(os.path.join(root, value))
 
         return list_dir
+
+    def create_list_of_ocurrences(self):
+        list_of_found = []
+        list_from_path = self.print_directory()
+        for result in list_from_path:
+            if self._file_name in result:
+                list_of_found.append(result)
+        return list_of_found
 
