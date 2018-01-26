@@ -1,9 +1,11 @@
 """
 class for unit tests
 """
-import pytest
 import os
+import pytest
 from src.com.jalasoft.search_files.search.search_engine import Search
+
+
 
 @pytest.mark.search
 def test_a_search_is_created_without_parameters():
