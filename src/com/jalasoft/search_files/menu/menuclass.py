@@ -37,10 +37,10 @@ class Menu:
     def set_search_path(self):
         """Display the all files into a determinate path."""
         print("search path")
-        path = input("Insert a root path")
+        path = input("Insert a root path: ")
         print(path)
         is_valid_path = utils.is_a_valid_path(path)
-        if (is_valid_path):
+        if (is_valid_path["valid"]):
             self.search_obj.set_path(path)
             list_d = self.search_obj.print_directory()
             print('\n'.join(list_d))
