@@ -74,9 +74,9 @@ class Search(object):
         return list_of_found
 
 
-# search = Search(path_file='D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\src\com\jalasoft\\',
-#                 file_name='py')
-# dict = search.create_list_of_ocurrences()
-# print(dict)
+search = Search(path_file='D:\\',
+                file_name='video')
+dict = search.create_list_of_ocurrences()
+print(dict)
 
 
