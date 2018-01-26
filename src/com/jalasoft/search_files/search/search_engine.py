@@ -83,7 +83,7 @@ class Search(object):
         return list_of_found
 
 
-search = Search(path_file='D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\config\\')
-listM = search.print_directory()
-for value in listM:
-    print(value.get_file_name())
+# search = Search(path_file='D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\config\\')
+# listM = search.print_directory()
+# for value in listM:
+#     print(value.get_file_name())
