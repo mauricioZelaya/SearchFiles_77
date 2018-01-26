@@ -3,7 +3,7 @@ class Menu displays the all options to search a file, path, archive
 """
 import sys
 
-from SearchFiles_77.src.com.jalasoft.search_files.search.search_engine import Search
+from src.com.jalasoft.search_files.search.search_engine import Search
 
 
 class Menu:
