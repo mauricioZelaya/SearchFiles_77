@@ -37,3 +37,14 @@ def test_a_path_is_modified_with_a_given_path():
     search_path = os.getcwd()
     search_engine.set_path(search_path)
     assert search_engine.get_path() == search_path
+
+@pytest.mark.search
+def test_a_file_name_is_modified_with_given_new_file_name():
+    """
+
+    :return:
+    """
+    search_engine = Search(file_name='file_name')
+    new_file = 'new_search'
+    search_engine.set_file_name(new_file)
+    assert search_engine.get_file_name() == new_file
