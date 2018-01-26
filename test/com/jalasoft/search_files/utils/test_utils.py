@@ -16,7 +16,6 @@ def test_is_a_valid_path_with_valid_path():
     path = os.getcwd()
     assert utils.is_a_valid_path(path)["valid"]
 
-#############################
 @pytest.mark.utils
 def test_is_a_valid_path_with_invalid_path():
     """
@@ -39,7 +38,6 @@ def test_is_a_valid_path_with_valid_wildcards():
         path = os.getcwd()
         assert utils.is_a_valid_path(path)["valid"]
 
-######################################################
 @pytest.mark.utils
 def test_is_a_valid_path_with_invalid_wildcards():
     """
@@ -59,8 +57,6 @@ def test_validate_correct_path_for_linux():
     path = "/"
     assert utils._validate_path_match_os(path)
 
-
-#####################################################
 @pytest.mark.utils
 def test_validate_incorrect_path_for_linux():
     """
