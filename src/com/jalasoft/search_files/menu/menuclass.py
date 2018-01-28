@@ -2,7 +2,7 @@
 class Menu displays the all options to search a file, path, archive
 """
 import sys
-import src.com.jalasoft.search_files.utils.utils as utils
+from src.com.jalasoft.search_files.utils import utils as utils
 from src.com.jalasoft.search_files.search.search_engine import Search
 
 
@@ -40,10 +40,11 @@ class Menu:
         path = input("Insert a root path: ")
         print(path)
         is_valid_path = utils.is_a_valid_path(path)
-        if (is_valid_path["valid"]):
+        if is_valid_path["valid"]:
             self.search_obj.set_path(path)
             list_d = self.search_obj.print_directory()
-            print('\n'.join(list_d))
+            for value in list_d:
+                print(value.get_file_name())
         else:
             print(is_valid_path["message"])
 
