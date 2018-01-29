@@ -11,8 +11,8 @@ class Menu:
     Display a menu and respond to choices when run.
     """
     def __init__(self):
-        self.choices = {"1": self.set_search_path, "2": self.set_search_file_name,
-                        "3": self.set_filters, "4": self.quit}
+        self.choices = {"1": self.set_search_path, "2": self.set_filters,
+                        "3": self.set_search_file_name, "4": self.quit}
         self.submenu_choices = {"1": self.search_folder, "2": self.search_file, "3": self.search_folder_file,
                                 "4": self.back_menu}
         self.search_obj = Search()
@@ -24,8 +24,8 @@ class Menu:
         print("""
             Search Menu
             1. Set Path
-            2. Search by Name
-            3. Set Filters
+            2. Set Filters
+            3. Search by Name
             4. Quit
             """)
 
@@ -71,7 +71,7 @@ class Menu:
         """
         Display the all files into a determinate path.
         """
-        print("search path")
+        print("Set Path")
         path = input("Insert a root path: ")
         print(path)
         is_valid_path = utils.is_a_valid_path(path)
