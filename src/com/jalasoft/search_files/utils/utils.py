@@ -1,21 +1,23 @@
 """
 This package is for utilities, methods that will help to validate inputs
 """
-import config.config as config
 import os
-
+import config.config as config
+from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
 def is_a_valid_path(path=None):
 
     if not _validate_path_match_os(path):
+        LOGGER.error("method 'is_a_valid_path' fail for OS verification: ".format(path))
         return {"message": "invalid OS path",
                 "valid": False}
 
     if not _is_path_with_valid_values(path):
+        LOGGER.error("method 'is_a_valid_path' fail for wildcards verification: ".format(path))
         return {"message": "path contains invalid wildcards",
                 "valid": False}
-    # path_exists = is_path_exist(path)
 
+    LOGGER.info("method 'is_a_valid_path' success for verifications: ".format(path))
     return {"message": "the path is correct",
             "valid": True}
 
@@ -52,5 +54,7 @@ def is_object_directory(path):
     :return: boolean
     """
     if os.path.isdir(path):
+        LOGGER.info("The object is a directory: ".format(path))
         return True
+    LOGGER.error("The object is not a directory".format(path))
     return False
