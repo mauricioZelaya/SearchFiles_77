@@ -6,6 +6,11 @@ import os
 
 
 def is_a_valid_path(path=None):
+    """
+    This method verify that the path is valid, it includes verification of the OS and the wildcards
+    :param path: The path that will be tested
+    :return: Boolean
+    """
 
     if not _validate_path_match_os(path):
         return {"message": "invalid OS path",
