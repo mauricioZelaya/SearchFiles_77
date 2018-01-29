@@ -23,9 +23,9 @@ class Menu:
         """
         print("""
             Search Menu
-            1. Search Path
-            2. Search File Name
-            3. Search Filter
+            1. Set Path
+            2. Search by Name
+            3. Set Filters
             4. Quit
             """)
 
@@ -34,11 +34,11 @@ class Menu:
         Sub Menu for filter option that will be displayed.
         """
         print("""
-            Search Menu Filter
-            1. Search Folder
-            2. Search File
-            3. Search Folder and File
-            4. Return Menu
+            Menu Filters
+            1. Folders Only
+            2. Files Only
+            3. Folders and Files
+            4. Back Menu
             """)
 
     def run(self):
