@@ -87,14 +87,16 @@ class Menu:
         """
         Display a determinate file.
         """
-        file_name = input("file name: ")
+        file_name = input("Set File Name: ")
         self.search_obj.set_file_name(file_name)
         list_d = self.search_obj.create_list_of_ocurrences()
         for value in list_d:
+            print("---------------------------------------------------------------------------")
             print(value.get_file_name())
             if not value.get_is_directory():
                 print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
                 print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
+                print("---------------------------------------------------------------------------")
         print("Total files matched: %s" % self.search_obj.get_total_matches())
 
     def set_filters(self):
@@ -108,6 +110,7 @@ class Menu:
         Display a determinate folder.
         """
         self.search_obj.set_criteria(2)
+        self.run()
         # print("Search Folder")
 
     def search_file(self):
@@ -115,6 +118,7 @@ class Menu:
         Display a determinate file.
         """
         self.search_obj.set_criteria(1)
+        self.run()
         # print("Search File")
 
     def search_folder_file(self):
@@ -122,6 +126,7 @@ class Menu:
         Display a determinate file or folder.
         """
         self.search_obj.set_criteria(3)
+        self.run()
         # print("Search File or Folder")
 
     def back_menu(self):
