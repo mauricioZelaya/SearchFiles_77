@@ -155,4 +155,3 @@ def test_is_object_not_a_directory():
     assert not utils.is_object_directory(path)
 
     LOGGER.info("=========test_is_object_not_a_directory has PASSED=========")
-
