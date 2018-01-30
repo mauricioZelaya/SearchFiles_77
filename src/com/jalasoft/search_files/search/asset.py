@@ -11,7 +11,7 @@ class Asset(object):
     """
     def __init__(self):
         self._file_name = ''
-        self.file_size = 0
+        self._file_size = 0
         self.is_directory = False
 
     def get_file_name(self):
@@ -26,7 +26,7 @@ class Asset(object):
 
         :return:
         """
-        return self.file_size
+        return self._file_size
 
     def get_is_directory(self):
         """
@@ -41,6 +41,20 @@ class Asset(object):
         :return:
         """
         return os.path.getctime(self._file_name)
+
+    def get_last_access_time(self):
+        """
+        return metadata information about the clast access date of the asset
+        :return:
+        """
+        return os.path.getatime(self._file_name)
+
+    def get_last_modification_date(self):
+        """
+        return metadata information about the last modification date of the asset
+        :return:
+        """
+        return os.path.getmtime(self._file_name)
 
 
 class File(Asset):
@@ -61,7 +75,7 @@ class File(Asset):
         :param file_size:
         :return:
         """
-        self.file_size = file_size
+        self._file_size = file_size
 
     def set_is_directory(self, is_directory):
         """

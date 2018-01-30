@@ -7,6 +7,7 @@ import time
 
 from src.com.jalasoft.search_files.utils import utils as utils
 from src.com.jalasoft.search_files.search.search_engine import Search
+from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 
 
 class Menu:
@@ -18,7 +19,8 @@ class Menu:
                         "3": self.set_search_file_name, "4": self.quit}
         self.submenu_choices = {"1": self.search_folder, "2": self.search_file, "3": self.search_folder_file,
                                 "4": self.back_menu}
-        self.search_obj = Search()
+        self._search_criteria = SearchCriteria()
+        self.search_obj = Search(self._search_criteria)
 
     def display_menu(self):
         """
@@ -79,7 +81,7 @@ class Menu:
         print(path)
         is_valid_path = utils.is_a_valid_path(path)
         if is_valid_path["valid"]:
-            self.search_obj.set_path(path)
+            self._search_criteria.set_basic_search_filters({'path': path})
         else:
             print(is_valid_path["message"])
 
@@ -88,8 +90,8 @@ class Menu:
         Display a determinate file.
         """
         file_name = input("Set File Name: ")
-        self.search_obj.set_file_name(file_name)
-        list_d = self.search_obj.create_list_of_ocurrences()
+        self._search_criteria.set_basic_search_filters({"file_name": file_name})
+        list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
         for value in list_d:
             print("---------------------------------------------------------------------------")
             print(value.get_file_name())
@@ -109,25 +111,22 @@ class Menu:
         """
         Display a determinate folder.
         """
-        self.search_obj.set_criteria(2)
+        self._search_criteria.set_basic_search_filters({'criteria': 2})
         self.run()
-        # print("Search Folder")
 
     def search_file(self):
         """
         Display a determinate file.
         """
-        self.search_obj.set_criteria(1)
+        self._search_criteria.set_basic_search_filters({'criteria': 1})
         self.run()
-        # print("Search File")
 
     def search_folder_file(self):
         """
         Display a determinate file or folder.
         """
-        self.search_obj.set_criteria(3)
+        self._search_criteria.set_basic_search_filters({'criteria': 3})
         self.run()
-        # print("Search File or Folder")
 
     def back_menu(self):
         """
