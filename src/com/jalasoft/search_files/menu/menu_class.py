@@ -2,6 +2,9 @@
 class Menu displays the all options to search a file, path, archive
 """
 import sys
+
+import time
+
 from src.com.jalasoft.search_files.utils import utils as utils
 from src.com.jalasoft.search_files.search.search_engine import Search
 
@@ -77,9 +80,6 @@ class Menu:
         is_valid_path = utils.is_a_valid_path(path)
         if is_valid_path["valid"]:
             self.search_obj.set_path(path)
-            list_d = self.search_obj.print_directory()
-            for value in list_d:
-                print(value.get_file_name())
         else:
             print(is_valid_path["message"])
 
@@ -87,7 +87,15 @@ class Menu:
         """
         Display a determinate file.
         """
-        print("search file")
+        file_name = input("file name: ")
+        self.search_obj.set_file_name(file_name)
+        list_d = self.search_obj.create_list_of_ocurrences()
+        for value in list_d:
+            print(value.get_file_name())
+            if not value.get_is_directory():
+                print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
+                print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
+        print("Total files matched: %s" % self.search_obj.get_total_matches())
 
     def set_filters(self):
         """
@@ -99,19 +107,22 @@ class Menu:
         """
         Display a determinate folder.
         """
-        print("Search Folder")
+        self.search_obj.set_criteria(2)
+        # print("Search Folder")
 
     def search_file(self):
         """
         Display a determinate file.
         """
-        print("Search File")
+        self.search_obj.set_criteria(1)
+        # print("Search File")
 
     def search_folder_file(self):
         """
         Display a determinate file or folder.
         """
-        print("Search File or Folder")
+        self.search_obj.set_criteria(3)
+        # print("Search File or Folder")
 
     def back_menu(self):
         """
