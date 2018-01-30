@@ -44,7 +44,7 @@ class Asset(object):
 
     def get_last_access_time(self):
         """
-        return metadata information about the clast access date of the asset
+        return metadata information about the class access date of the asset
         :return:
         """
         return os.path.getatime(self._file_name)
