@@ -117,13 +117,3 @@ class Search(object):
                 list_of_found.append(result)
                 self._total_of_matches += 1
         return list_of_found
-
-
-# search = Search(path_file='D:\MauricioZ\Documments\Personal\\videos\\', criteria=2, file_name='Franco')
-# listM = search.create_list_of_ocurrences()
-# for value in listM:
-#     print(value.get_file_name())
-#     print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
-    # print("creation date: %s" % value.get_creation_time())
-# print('hi')
-# print(os.path.basename('D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\\test'))
