@@ -2,6 +2,9 @@
 class Menu displays the all options to search a file, path, archive
 """
 import sys
+
+import time
+
 from src.com.jalasoft.search_files.utils import utils as utils
 from src.com.jalasoft.search_files.search.search_engine import Search
 
@@ -91,6 +94,7 @@ class Menu:
             print(value.get_file_name())
             if not value.get_is_directory():
                 print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
+                print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
         print("Total files matched: %s" % self.search_obj.get_total_matches())
 
     def set_filters(self):

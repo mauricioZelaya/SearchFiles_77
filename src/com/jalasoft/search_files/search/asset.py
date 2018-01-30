@@ -2,13 +2,15 @@
 asset class and inheritances
 """
 
+import os
+
 
 class Asset(object):
     """
 
     """
     def __init__(self):
-        self.file_name = ''
+        self._file_name = ''
         self.file_size = 0
         self.is_directory = False
 
@@ -17,7 +19,7 @@ class Asset(object):
 
         :return:
         """
-        return self.file_name
+        return self._file_name
 
     def get_file_size(self):
         """
@@ -33,6 +35,13 @@ class Asset(object):
         """
         return self.is_directory
 
+    def get_creation_time(self):
+        """
+        return metadata information about the creation date of the asset
+        :return:
+        """
+        return os.path.getctime(self._file_name)
+
 
 class File(Asset):
     """
@@ -44,7 +53,7 @@ class File(Asset):
         :param file_name:
         :return:
         """
-        self.file_name = file_name
+        self._file_name = file_name
 
     def set_file_size(self, file_size):
         """
@@ -74,7 +83,7 @@ class Folder(Asset):
         :param file_name:
         :return:
         """
-        self.file_name = file_name
+        self._file_name = file_name
 
     def set_is_directory(self, is_directory):
         """
