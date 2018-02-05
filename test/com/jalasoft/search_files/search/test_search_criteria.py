@@ -32,6 +32,7 @@ def test_set_search_filters():
 
     criteria = sc.SearchCriteria()
     search_criteria = {
+        "advance_flag":False,
         "criteria": 3,
         "path": "/",
         "size": 55,
@@ -58,7 +59,7 @@ def test_set_search_filters_only_some_values():
 
     search_criteria = sc.SearchCriteria()
     expected_criteria = {
-        "advance_flag":True,
+        "advance_flag":False,
         "criteria": 3,
         "path": "/",
         "size": None,

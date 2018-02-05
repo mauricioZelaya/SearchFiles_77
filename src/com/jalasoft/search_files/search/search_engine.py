@@ -35,7 +35,8 @@ class Search(object):
         :return: list of files and folders on the given path in which the search object was created
         """
         list_dir = []
-        search_criteria_values = self._search_criteria.get_basic_search()
+        search_criteria_values = self._search_criteria.get_search_filter()
+
         for root, dirs, files in os.walk(search_criteria_values['path'], topdown=False):
             if search_criteria_values['criteria'] == 2 or search_criteria_values['criteria'] == 3:
                 for value in dirs:
@@ -60,7 +61,7 @@ class Search(object):
         """
         list_of_found = []
         list_from_path = self.print_directory()
-        file_name = search_criteria.get_basic_search()
+        file_name = search_criteria.get_search_filter()
         for result in list_from_path:
             if file_name['file_name'] in os.path.basename(result.get_file_name()):
                 list_of_found.append(result)
