@@ -42,6 +42,9 @@ def _is_path_with_valid_values(path=None):
     :param path: The path that will be validated
     :return: Boolean
     """
+    if path is None:
+        return False
+
     if config.__OS_PLATFORM__ == "win32":
         invalid_values = ["<", ">", ":", '"', "/", "|", "?", "*"]
         path = path.split("\\")
@@ -63,3 +66,6 @@ def is_object_directory(path):
         return True
     LOGGER.error("The object is not a directory".format(path))
     return False
+
+def is_user_value_valid(user_value, option):
+    pass
