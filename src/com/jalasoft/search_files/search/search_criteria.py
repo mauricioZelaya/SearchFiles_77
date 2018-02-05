@@ -35,6 +35,7 @@ class SearchCriteria(object):
             self._basic_search = {
                 "criteria": criteria,
                 "path": path,
+                "file_name": None,
             }
             LOGGER.info("valid basic search is created: {}".format(self._basic_search))
 
