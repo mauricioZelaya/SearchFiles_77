@@ -6,9 +6,24 @@ import pytest
 import src.com.jalasoft.search_files.search.search_criteria as sc
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
+@pytest.mark.search_criteria
+def test_is_filter_search_criteria_instance():
+    """
+    This method verify that the instance is created
+    :return: None
+    """
+    LOGGER.info("=========test_is_filter_search_criteria_instance is starting=========")
+
+    criteria = sc.SearchCriteria()
+    search_filter = criteria.get_search_filter()
+    LOGGER.info("the search filter is equals to: {}".format(search_filter))
+    assert isinstance(criteria, sc.SearchCriteria)
+
+    LOGGER.info("=========test_is_filter_search_criteria_instance has PASSED=========")
+
 
 @pytest.mark.search_criteria
-def test_is_basic_search_criteria_instance():
+def test_set_search_filters():
     """
     This method verify that the instance is created
     :return: None
@@ -16,38 +31,6 @@ def test_is_basic_search_criteria_instance():
     LOGGER.info("=========test_is_search_criteria_instance is starting=========")
 
     criteria = sc.SearchCriteria()
-    basic_search = criteria.get_basic_search()
-    LOGGER.info("the basic filter is equals to: {}".format(basic_search))
-    assert isinstance(criteria, sc.SearchCriteria)
-
-    LOGGER.info("=========test_is_search_criteria_instance has PASSED=========")
-
-
-@pytest.mark.search_criteria
-def test_is_advance_search_criteria_instance():
-    """
-    This method verify that the instance is created
-    :return: None
-    """
-    LOGGER.info("=========test_is_search_criteria_instance is starting=========")
-
-    criteria = sc.SearchCriteria(advanced_flag=True)
-    advanced_search = criteria.get_advance_search()
-    LOGGER.info("the advanced filter is equals to: {}".format(advanced_search))
-    assert isinstance(criteria, sc.SearchCriteria)
-
-    LOGGER.info("=========test_is_search_criteriainstance has PASSED=========")
-
-
-@pytest.mark.search_criteria
-def test_set_advanced_search_filters():
-    """
-    This method verify that the instance is created
-    :return: None
-    """
-    LOGGER.info("=========test_is_search_criteria_instance is starting=========")
-
-    criteria = sc.SearchCriteria(advanced_flag=True)
     search_criteria = {
         "criteria": 3,
         "path": "/",
@@ -58,23 +41,24 @@ def test_set_advanced_search_filters():
         "directory_name": "Dir",
     }
 
-    old_search_criteria = criteria.get_advance_search()
-    new_search_criteria = criteria.set_advanced_search_filters(search_criteria)
+    old_search_criteria = criteria.get_search_filter()
+    new_search_criteria = criteria.set_search_filter(search_criteria)
     assert old_search_criteria != new_search_criteria
 
-    LOGGER.info("=========test_is_search_criteriainstance has PASSED=========")
+    LOGGER.info("=========test_is_search_criteria_instance has PASSED=========")
 
 
 @pytest.mark.search_criteria
-def test_set_advanced_search_filters_only_some_values():
+def test_set_search_filters_only_some_values():
     """
     This method verify that the instance is created
     :return: None
     """
     LOGGER.info("=========test_is_search_criteria_instance is starting=========")
 
-    search_criteria = sc.SearchCriteria(advanced_flag=True)
+    search_criteria = sc.SearchCriteria()
     expected_criteria = {
+        "advance_flag":True,
         "criteria": 3,
         "path": "/",
         "size": None,
@@ -92,7 +76,7 @@ def test_set_advanced_search_filters_only_some_values():
         "directory_name": None,
         "hidden": None
     }
-    search_criteria.set_advanced_search_filters(filters_to_modify)
-    assert expected_criteria == search_criteria.get_advance_search()
+    search_criteria.set_search_filter(filters_to_modify)
+    assert expected_criteria == search_criteria.get_search_filter()
 
-    LOGGER.info("=========test_is_search_criteriainstance has PASSED=========")
+    LOGGER.info("=========test_is_search_criteria_instance has PASSED=========")
