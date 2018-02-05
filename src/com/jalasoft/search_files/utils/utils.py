@@ -63,3 +63,6 @@ def is_object_directory(path):
         return True
     LOGGER.error("The object is not a directory".format(path))
     return False
+
+def is_user_value_valid(user_value, option):
+    pass

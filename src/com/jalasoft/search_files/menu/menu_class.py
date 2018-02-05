@@ -15,12 +15,23 @@ class Menu:
     Display a menu and respond to choices when run.
     """
     def __init__(self):
-        self.choices = {"1": self.set_search_path, "2": self.set_filters,
-                        "3": self.set_search_file_name, "4": self.quit}
-        self.submenu_choices = {"1": self.search_folder, "2": self.search_file, "3": self.search_folder_file,
-                                "4": self.back_menu}
-        self._search_criteria = SearchCriteria()
-        self.search_obj = Search(self._search_criteria)
+
+        self.choices = {
+            "1": self.set_search_path,
+            "2": self.set_filters,
+            "3": self.set_search_file_name,
+            "4": self.quit
+        }
+
+        self.submenu_choices = {
+            "1": self.search_folder,
+            "2": self.search_file,
+            "3": self.search_folder_file,
+            "4": self.back_menu
+        }
+
+        self.search_obj = Search()
+        self.filters = []
 
     def display_menu(self):
         """
@@ -55,7 +66,7 @@ class Menu:
             choice = input("Enter an option: ")
             action = self.choices.get(choice)
             if action:
-                action()
+                action(action)
             else:
                 print("{0} is not a valid choice".format(choice))
 
