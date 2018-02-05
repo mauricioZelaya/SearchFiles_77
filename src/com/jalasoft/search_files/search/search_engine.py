@@ -21,7 +21,6 @@ class Search(object):
         """
         self._search_criteria = search_criteria
         self._total_of_matches = 0
-        self._list_of_found = []
 
     def get_total_matches(self):
         """
@@ -37,6 +36,7 @@ class Search(object):
         """
         list_dir = []
         search_criteria_values = self._search_criteria.get_search_filter()
+
         for root, dirs, files in os.walk(search_criteria_values['path'], topdown=False):
             if search_criteria_values['criteria'] == 2 or search_criteria_values['criteria'] == 3:
                 for value in dirs:
@@ -59,16 +59,15 @@ class Search(object):
 
         :return:
         """
+        list_of_found = []
         list_from_path = self.print_directory()
         file_name = search_criteria.get_search_filter()
         for result in list_from_path:
             if file_name['file_name'] in os.path.basename(result.get_file_name()):
-                self._list_of_found.append(result)
+                list_of_found.append(result)
                 self._total_of_matches += 1
-        return self._list_of_found
+        return list_of_found
 
-    def filtering_results(self, search_criteria):
-        list_from_path = self.print_directory()
 
 # search = Search(path_file='D:\MauricioZ\Documments\Personal\\videos', criteria=2, file_name='Franco')
 # listM = search.create_list_of_ocurrences()
