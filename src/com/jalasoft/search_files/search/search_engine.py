@@ -36,6 +36,7 @@ class Search(object):
         """
         list_dir = []
         search_criteria_values = self._search_criteria.get_search_filter()
+
         for root, dirs, files in os.walk(search_criteria_values['path'], topdown=False):
             if search_criteria_values['criteria'] == 2 or search_criteria_values['criteria'] == 3:
                 for value in dirs:

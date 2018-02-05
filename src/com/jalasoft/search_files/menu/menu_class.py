@@ -91,6 +91,7 @@ class Menu:
         is_valid_path = utils.is_a_valid_path(path)
         if is_valid_path["valid"]:
             self._search_criteria.set_search_filter({'path': path})
+
         else:
             print(is_valid_path["message"])
 
@@ -100,6 +101,7 @@ class Menu:
         """
         file_name = input("Set File Name: ")
         self._search_criteria.set_search_filter({"file_name": file_name})
+
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
         for value in list_d:
             print("---------------------------------------------------------------------------")
@@ -137,7 +139,6 @@ class Menu:
         Display a determinate file or folder.
         """
         self._search_criteria.set_search_filter({'criteria': 3})
-        self.run()
 
     def back_menu(self):
         """
