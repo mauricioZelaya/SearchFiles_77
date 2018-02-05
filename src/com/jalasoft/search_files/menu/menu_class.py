@@ -7,6 +7,7 @@ import time
 
 from src.com.jalasoft.search_files.utils import utils as utils
 from src.com.jalasoft.search_files.search.search_engine import Search
+from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 
 
 class Menu:
@@ -14,7 +15,6 @@ class Menu:
     Display a menu and respond to choices when run.
     """
     def __init__(self):
-
         self.choices = {
             "1": self.set_search_path,
             "2": self.set_filters,
@@ -28,9 +28,8 @@ class Menu:
             "3": self.search_folder_file,
             "4": self.back_menu
         }
-
-        self.search_obj = Search()
-        self.filters = []
+        self._search_criteria = SearchCriteria()
+        self.search_obj = Search(self._search_criteria)
 
     def display_menu(self):
         """
@@ -65,7 +64,7 @@ class Menu:
             choice = input("Enter an option: ")
             action = self.choices.get(choice)
             if action:
-                action(action)
+                action()
             else:
                 print("{0} is not a valid choice".format(choice))
 
@@ -91,7 +90,7 @@ class Menu:
         print(path)
         is_valid_path = utils.is_a_valid_path(path)
         if is_valid_path["valid"]:
-            self.search_obj.set_path(path)
+            self._search_criteria.set_search_filter({'path': path})
         else:
             print(is_valid_path["message"])
 
@@ -100,14 +99,16 @@ class Menu:
         Display a determinate file.
         """
         file_name = input("Set File Name: ")
-        self.search_obj.set_file_name(file_name)
-        list_d = self.search_obj.create_list_of_ocurrences()
+        self._search_criteria.set_search_filter({"file_name": file_name})
+        list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
         for value in list_d:
             print("---------------------------------------------------------------------------")
             print(value.get_file_name())
             if not value.get_is_directory():
                 print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
                 print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
+                print("last modification date: %s" % time.asctime(time.localtime(value.get_last_modification_date())))
+                print("last access date: %s" % time.asctime(time.localtime(value.get_last_access_time())))
                 print("---------------------------------------------------------------------------")
         print("Total files matched: %s" % self.search_obj.get_total_matches())
 
@@ -121,25 +122,22 @@ class Menu:
         """
         Display a determinate folder.
         """
-        self.search_obj.set_criteria(2)
+        self._search_criteria.set_search_filter({'criteria': 2})
         self.run()
-        # print("Search Folder")
 
     def search_file(self):
         """
         Display a determinate file.
         """
-        self.search_obj.set_criteria(1)
+        self._search_criteria.set_search_filter({'criteria': 1})
         self.run()
-        # print("Search File")
 
     def search_folder_file(self):
         """
         Display a determinate file or folder.
         """
-        self.search_obj.set_criteria(3)
+        self._search_criteria.set_search_filter({'criteria': 3})
         self.run()
-        # print("Search File or Folder")
 
     def back_menu(self):
         """
