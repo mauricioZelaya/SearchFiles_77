@@ -29,7 +29,6 @@ class SearchCriteria(object):
         }
         LOGGER.info("valid search filter dictionary was created: {}".format(self._search_filter))
 
-
     def get_search_filter(self):
         """
         This method returns the advance criteria.
