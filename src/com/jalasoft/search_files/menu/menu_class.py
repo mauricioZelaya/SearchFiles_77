@@ -15,23 +15,12 @@ class Menu:
     Display a menu and respond to choices when run.
     """
     def __init__(self):
-
-        self.choices = {
-            "1": self.set_search_path,
-            "2": self.set_filters,
-            "3": self.set_search_file_name,
-            "4": self.quit
-        }
-
-        self.submenu_choices = {
-            "1": self.search_folder,
-            "2": self.search_file,
-            "3": self.search_folder_file,
-            "4": self.back_menu
-        }
-
-        self.search_obj = Search()
-        self.filters = []
+        self.choices = {"1": self.set_search_path, "2": self.set_filters,
+                        "3": self.set_search_file_name, "4": self.quit}
+        self.submenu_choices = {"1": self.search_folder, "2": self.search_file, "3": self.search_folder_file,
+                                "4": self.back_menu}
+        self._search_criteria = SearchCriteria()
+        self.search_obj = Search(self._search_criteria)
 
     def display_menu(self):
         """
@@ -66,7 +55,7 @@ class Menu:
             choice = input("Enter an option: ")
             action = self.choices.get(choice)
             if action:
-                action(action)
+                action()
             else:
                 print("{0} is not a valid choice".format(choice))
 
@@ -92,7 +81,7 @@ class Menu:
         print(path)
         is_valid_path = utils.is_a_valid_path(path)
         if is_valid_path["valid"]:
-            self._search_criteria.set_basic_search_filters({'path': path})
+            self._search_criteria.set_search_filter({'path': path})
         else:
             print(is_valid_path["message"])
 
@@ -101,7 +90,7 @@ class Menu:
         Display a determinate file.
         """
         file_name = input("Set File Name: ")
-        self._search_criteria.set_basic_search_filters({"file_name": file_name})
+        self._search_criteria.set_search_filter({"file_name": file_name})
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
         for value in list_d:
             print("---------------------------------------------------------------------------")
@@ -124,21 +113,21 @@ class Menu:
         """
         Display a determinate folder.
         """
-        self._search_criteria.set_basic_search_filters({'criteria': 2})
+        self._search_criteria.set_search_filter({'criteria': 2})
         self.run()
 
     def search_file(self):
         """
         Display a determinate file.
         """
-        self._search_criteria.set_basic_search_filters({'criteria': 1})
+        self._search_criteria.set_search_filter({'criteria': 1})
         self.run()
 
     def search_folder_file(self):
         """
         Display a determinate file or folder.
         """
-        self._search_criteria.set_basic_search_filters({'criteria': 3})
+        self._search_criteria.set_search_filter({'criteria': 3})
         self.run()
 
     def back_menu(self):
