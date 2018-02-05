@@ -22,56 +22,6 @@ class Search(object):
         self._search_criteria = search_criteria
         self._total_of_matches = 0
 
-    def set_path(self, path_directory):
-        """
-        seth a new path for a new search
-        :param path_directory:
-        :return:
-        """
-        self._path_file = path_directory
-
-    def get_path(self):
-        """
-
-        :return:
-        """
-        return self._path_file
-
-    def set_file_name(self, file_name):
-        """
-
-        :param file_name:
-        :return:
-        """
-        self._file_name = file_name
-
-    def get_file_name(self):
-        """
-
-        :return:
-        """
-        return self._file_name
-
-    def get_criteria(self):
-        """
-
-        :return:
-        """
-        return self._criteria
-
-    def set_criteria(self, criteria):
-        """
-
-        :param criteria:
-        :return:
-        """
-        LOGGER.info("=========start setting new value for search criteria=========")
-
-        self._criteria = criteria
-
-        LOGGER.info("=========end setting new value for search criteria=========")
-        LOGGER.debug("=========end setting new value for search criteria=========" + str(self._criteria))
-
     def get_total_matches(self):
         """
 
@@ -122,7 +72,7 @@ class Search(object):
 # listM = search.create_list_of_ocurrences()
 # for value in listM:
 #     print(value.get_file_name())
-    # print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
-    # print("creation date: %s" % value.get_creation_time())
+#     print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
+#     print("creation date: %s" % value.get_creation_time())
 # print('hi')
 # print(os.path.basename('D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\\test\mauricio.txt'))
