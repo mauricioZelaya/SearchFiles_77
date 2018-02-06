@@ -85,6 +85,17 @@ def convert_to_epoch_time(year, month, day):
     return calendar.timegm(datetime.datetime(year, month, day, 0, 0).timetuple())
 
 
+def date_to_epoch_time(date_to_convert):
+    """
+
+    :param self:
+    :param date_to_convert:
+    :return:
+    """
+    init_date = date_to_convert.split('/')
+    return convert_to_epoch_time(int(init_date[0]), int(init_date[1]), int(init_date[2]))
+
+
 def is_user_value_valid(user_value, option):
     pass
 
