@@ -76,8 +76,6 @@ class Search(object):
         epoch_time_var = utils.convert_to_epoch_time(int(init_date[0]), int (init_date[1]), int(init_date[2]))
         end_epoch_time_var = utils.convert_to_epoch_time(int(end_date[0]), int(end_date[1]), int(end_date[2]))
         return self.advanced_search_by_creation_time(search_criteria, epoch_time_var, end_epoch_time_var)
-        # print(epoch_time_var)
-        # print(end_epoch_time_var)
 
     def basic_results(self, search_criteria):
         list_of_found = []
@@ -94,7 +92,8 @@ class Search(object):
         list_from_path = self.print_directory()
         file_name = search_criteria.get_search_filter()
         for result in list_from_path:
-            if start_date <= result.get_creation_time() <= end_date and file_name['file_name'] in os.path.basename(result.get_file_name()):
+            if start_date <= result.get_creation_time() <= end_date \
+                    and file_name['file_name'] in os.path.basename(result.get_file_name()):
                 list_of_found.append(result)
                 self._total_of_matches += 1
         return list_of_found
@@ -115,14 +114,9 @@ class Search(object):
 #
 # search = Search(search_criteria)
 # listM = search.filtering_by_date(search_criteria)
-
-
-
-# search = Search(path_file='D:\MauricioZ\Documments\Personal\\videos', criteria=2, file_name='Franco')
-# listM = search.create_list_of_ocurrences()
-for value in listM:
-    print(value.get_file_name())
-    print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
-    print("creation date: %s" % value.get_creation_time())
+# for value in listM:
+#     print(value.get_file_name())
+#     print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
+#     print("creation date: %s" % value.get_creation_time())
 # print('hi')
 # print(os.path.basename('D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\\test\mauricio.txt'))
