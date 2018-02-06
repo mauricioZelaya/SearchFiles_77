@@ -111,6 +111,7 @@ class Menu:
                 print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
                 print("last modification date: %s" % time.asctime(time.localtime(value.get_last_modification_date())))
                 print("last access date: %s" % time.asctime(time.localtime(value.get_last_access_time())))
+                print(value.get_creation_time())
                 print("---------------------------------------------------------------------------")
         print("Total files matched: %s" % self.search_obj.get_total_matches())
 
