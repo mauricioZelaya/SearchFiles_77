@@ -1,13 +1,12 @@
 """
 This package is for utilities, methods that will help to validate inputs
 """
-import calendar
 import os
-
+import calendar
 import datetime
-
 import config.config as config
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
+
 
 def is_a_valid_path(path=None):
     """
@@ -85,6 +84,11 @@ def convert_to_epoch_time(year, month, day):
     return calendar.timegm(datetime.datetime(year, month, day, 0, 0).timetuple())
 
 
-def is_user_value_valid(user_value, option):
-    pass
+def is_document_text(document):
+    print(document)
+    try:
+        open(document).read(512)
+        return True
+    except:
+        return False
 
