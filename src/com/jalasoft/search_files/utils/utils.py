@@ -1,7 +1,11 @@
 """
 This package is for utilities, methods that will help to validate inputs
 """
+import calendar
 import os
+
+import datetime
+
 import config.config as config
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
@@ -35,6 +39,7 @@ def _validate_path_match_os(path=None):
     """
     return os.path.isabs(path)
 
+
 def _is_path_with_valid_values(path=None):
     """
     This method validates that the given path does not contain any invalid
@@ -55,6 +60,7 @@ def _is_path_with_valid_values(path=None):
                     return False
     return True
 
+
 def is_object_directory(path):
     """
     This method will return if the path is directory
@@ -67,5 +73,18 @@ def is_object_directory(path):
     LOGGER.error("The object is not a directory".format(path))
     return False
 
+
+def convert_to_epoch_time(year, month, day):
+    """
+
+    :param year:
+    :param month:
+    :param day:
+    :return:
+    """
+    return calendar.timegm(datetime.datetime(year, month, day, 0, 0).timetuple())
+
+
 def is_user_value_valid(user_value, option):
     pass
+
