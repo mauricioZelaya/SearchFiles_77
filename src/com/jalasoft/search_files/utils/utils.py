@@ -92,3 +92,13 @@ def is_document_text(document):
     except:
         return False
 
+
+def date_to_epoch_time(date_to_convert):
+    """
+
+    :param self:
+    :param date_to_convert:
+    :return:
+    """
+    init_date = date_to_convert.split('/')
+    return convert_to_epoch_time(int(init_date[0]), int(init_date[1]), int(init_date[2]))
