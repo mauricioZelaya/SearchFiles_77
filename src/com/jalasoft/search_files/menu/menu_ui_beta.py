@@ -31,7 +31,7 @@ class SearchMenu:
 
         self.main.title("Menu Search")
         self.main.option_add("*Font", "Helvetica 12")
-        self.main.attributes('-fullscreen', True)
+        # self.main.attributes('-fullscreen', True)
 
         self.text_menu = Label(self.main, text="Add Path and Key Name")
         self.text_menu.grid(row=1, column=2)
@@ -39,26 +39,29 @@ class SearchMenu:
         self.text_path = Label(self.main, text="Path :")
         self.text_path.grid(row=2, column=1)
         self.path_str = StringVar()
-        self.path_entry = Entry(self.main, textvariable=self.path_str)
+        self.path_entry = Entry(self.main, textvariable=self.path_str, width=40)
         self.path_entry.grid(row=2, column=2)
 
         self.text_key = Label(self.main, text="Key Name :")
         self.text_key.grid(row=3, column=1)
         self.key_str = StringVar()
-        self.key_entry = Entry(self.main, textvariable=self.key_str)
+        self.key_entry = Entry(self.main, textvariable=self.key_str, width=40)
         self.key_entry.grid(row=3, column=2)
 
         self.search = Button(self.main, text="Search", command=self.b_search)
-        self.search.grid(row=2, column=3)
+        self.search.grid(row=4, column=1, padx=20, pady=0)
 
         self.cancel = Button(self.main, text="Cancel", command=self.b_quit)
-        self.cancel.grid(row=3, column=3)
+        self.cancel.grid(row=4, column=2, padx=0, pady=10)
 
-        self.listbox = Listbox(self.main, width=100, height=50, bg='white')
-        self.listbox.grid(row=4, column=2)
+        self.path = Button(self.main, text="Select Path", command=self.set_path)
+        self.path.grid(row=2, column=3)
+
+        self.listbox = Listbox(self.main, width=70, height=10, bg='white')
+        self.listbox.grid(row=5, column=3)
 
         self.advance = ttk.Checkbutton(self.main, text="Advance", variable=None, onvalue=True)
-        self.advance.grid(row=2, column=6, padx=60, pady=5)
+        self.advance.grid(row=5, column=1)
 
         # self.can1 = Canvas(self.main, width=1000, height=500, bg='white')
         # self.can1.grid(row=4, column=2)
@@ -70,6 +73,12 @@ class SearchMenu:
         exit of application
         """
         self.main.destroy()
+
+    def set_path(self):
+        """
+        select a path
+        """
+        pass
 
     def b_search(self):
         """
