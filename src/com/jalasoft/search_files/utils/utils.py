@@ -4,8 +4,33 @@ This package is for utilities, methods that will help to validate inputs
 import os
 import calendar
 import datetime
+import time
 import config.config as config
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
+
+
+def are_date_valid(initial_date, end_date):
+    """
+    This method validate a date, it verify that the end date is further than the initial date.
+    :param initial_date: String in form of date eg "dd/mm/yy".
+    :param end_date: String in form of date eg "dd/mm/yy".
+    :return: True if the date is valid
+    """
+
+    try:
+        initial_date = time.strptime(initial_date, "%d/%m/%Y")
+        end_date = time.strptime(end_date, "%d/%m/%Y")
+        if end_date > initial_date:
+            LOGGER.info("The dates are correct: {}, {}".format(initial_date, end_date))
+            return True
+        else:
+            LOGGER.error("The dates are incorrect: {}, {}".format(initial_date, end_date))
+            return {"message": "The end final date is before initial date",
+                    "valid": False}
+    except:
+        LOGGER.error("Invalid date format: {}, {}".format(initial_date, end_date))
+        return {"message": "invalid date format",
+                "valid": False}
 
 
 def is_a_valid_path(path=None):
