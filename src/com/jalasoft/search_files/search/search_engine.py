@@ -18,6 +18,7 @@ class Search(object):
 
     :param object  class
     """
+
     def __init__(self, search_criteria):
         """
         constructor method
@@ -64,10 +65,11 @@ class Search(object):
 
         :return:
         """
+        basic_result_list = self.basic_results(search_criteria.get_search_filter()['file_name'])
         if not search_criteria.get_search_filter()['advance_flag']:
-            return self.basic_results(search_criteria.get_search_filter()['file_name'])
+            return basic_result_list
         else:
-            return self.verify_advanced_filters(search_criteria)
+            return self.verify_advanced_filters(search_criteria, basic_result_list)
 
     def basic_results(self, file_keyword):
         """
@@ -82,6 +84,34 @@ class Search(object):
                 list_of_found.append(result)
                 self._total_of_matches += 1
         return list_of_found
+
+    def verify_advanced_filters(self, search_criteria, basic_result_list):
+        """
+        this method will be used to filter results of the search according the filters set
+        :param search_criteria: advanced filters for the search
+        :return:
+        """
+        filter_list = search_criteria.get_search_filter()
+        basic_search_result_list = basic_result_list
+        if not filter_list['creation_date']['start_date'] is None and not filter_list['creation_date']['end_date'] is None:
+            start_creation_date = filter_list['creation_date']['start_date']
+            end_creation_date = filter_list['creation_date']['end_date']
+            basic_search_result_list = self.advanced_search_by_creation_time(basic_search_result_list,
+                                                                             utils.date_to_epoch_time(
+                                                                                 start_creation_date)
+                                                                             ,
+                                                                             utils.date_to_epoch_time(end_creation_date)
+                                                                             )
+
+        if not filter_list['modification_date']['start_date'] is None and not filter_list['modification_date']['end_date'] is None:
+            start_modification_date = filter_list['modification_date']['start_date']
+            end_modification_date = filter_list['modification_date']['end_date']
+            basic_search_result_list = self.advanced_search_by_modification_time(basic_search_result_list,
+                                                                                 utils.date_to_epoch_time
+                                                                                 (start_modification_date),
+                                                                                 utils.date_to_epoch_time
+                                                                                 (end_modification_date))
+        return basic_search_result_list
 
     def advanced_search_by_creation_time(self, basic_search_result_list, start_date, end_date):
         """
@@ -99,23 +129,21 @@ class Search(object):
                 self._total_of_matches += 1
         return list_of_found
 
-    def verify_advanced_filters(self, search_criteria):
+    def advanced_search_by_modification_time(self, basic_search_result_list, start_date, end_date):
         """
-        this method will be used to filter results of the search according the filters set
-        :param search_criteria: advanced filters for the search
+        this method will create a list of results according the modification date
+        :param basic_search_result_list:
+        :param start_date:
+        :param end_date:
         :return:
         """
-        filter_list = search_criteria.get_search_filter()
-        file_keyword = filter_list['file_name']
-        basic_search_result_list = self.basic_results(file_keyword)
-        if not filter_list['init_date'] is None and not filter_list['end_date'] is None:
-            start_creation_date = filter_list['init_date']
-            end_creation_date = filter_list['end_date']
-            basic_search_result_list = self.advanced_search_by_creation_time(basic_search_result_list,
-                                                                             utils.date_to_epoch_time(start_creation_date)
-                                                                             , utils.date_to_epoch_time(end_creation_date)
-                                                                             )
-        return basic_search_result_list
+        list_of_found = []
+        self._total_of_matches = 0
+        for result in basic_search_result_list:
+            if start_date <= result.get_last_modification_date() <= end_date:
+                list_of_found.append(result)
+                self._total_of_matches += 1
+        return list_of_found
 
 
 search_criteria = SearchCriteria()
@@ -123,8 +151,12 @@ search_criteria.set_search_filter({"advance_flag": True,
                                    "criteria": 1,
                                    "path": 'D:\\',
                                    "size": None,
-                                   "init_date": '2018/01/13',
-                                   "end_date": '2018/01/30',
+                                   "start_creation_date": None,
+                                   "end_creation_date": None,
+                                   "start_modification_date": '2018/01/13',
+                                   "end_modification_date": '2018/01/30',
+                                   "start_last_access_date": None,
+                                   "end_last_access_date": None,
                                    "extension": None,
                                    "file_name": 'Franco',
                                    "directory_name": None,
@@ -134,7 +166,7 @@ search = Search(search_criteria)
 listM = search.create_list_of_ocurrences(search_criteria)
 for value in listM:
     print(value.get_file_name())
-    print("File Size: %s Mbytes" % str(int(value.get_file_size())/1000000))
+    print("File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
     print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
 # print('hi')
 # print(os.path.basename('D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\\test\mauricio.txt'))
