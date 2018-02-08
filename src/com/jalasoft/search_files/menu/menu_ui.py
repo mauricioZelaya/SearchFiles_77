@@ -2,12 +2,13 @@
 Menu UI
 """
 
-from tkinter import ttk
 import tkinter as tk
-import time
-from tkcalendar import Calendar, DateEntry
+from tkcalendar import DateEntry
+from tkinter import filedialog
+from tkinter import *
 
-from src.com.jalasoft.search_files.utils import utils as utils
+import time
+
 from src.com.jalasoft.search_files.search.search_engine import Search
 from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 
@@ -16,7 +17,7 @@ class SearchMenu(tk.Frame):
     """
     Start menu
     """
-    def __init__(self, parent, hidden, creation_date, modification_date, last_date, a):
+    def __init__(self, parent, hidden, creation_date, modification_date, last_date):
         """
         Start menu
         """
@@ -24,18 +25,19 @@ class SearchMenu(tk.Frame):
         self.creation_date = creation_date
         self.modification_date = modification_date
         self.last_date = last_date
-        self.a = a
         self.hidden = hidden
         tk.Frame.__init__(self, self.master)
         self.configure_gui()
         self.create_widgets()
+        self._search_criteria = SearchCriteria()
+        self.search_obj = Search(self._search_criteria)
 
     def configure_gui(self):
         """
         UI configuration
         """
         self.master.title('Menu Search')
-        self.master.configure(width=800, height=800)
+        self.master.configure(width=650, height=600)
         # self.place(relwidth=1, relheight=1)
 
     def create_widgets(self):
@@ -46,6 +48,7 @@ class SearchMenu(tk.Frame):
         self.create_textbox()
         self.create_buttons()
         self.create_checkbox()
+        self.create_listbox()
 
     def create_labels(self):
         """
@@ -63,7 +66,7 @@ class SearchMenu(tk.Frame):
         all Textbox
         """
         self.path_str = tk.StringVar()
-        self.path_entry = tk.Entry(self.master, textvariable=self.path_str, width=30)
+        self.path_entry = tk.Entry(self.master, textvariable=self.path_str, width=30, state='disabled')
         self.path_entry.place(x=90, y=40)
         self.key_str = tk.StringVar()
         self.key_entry = tk.Entry(self.master, textvariable=self.key_str, width=30)
@@ -73,12 +76,19 @@ class SearchMenu(tk.Frame):
         """
         all buttons
         """
-        self.search = tk.Button(self.master, text="Search", command=None)
+        self.search = tk.Button(self.master, text="Search", command=self.search_criteria)
         self.search.place(x=200, y=100)
         self.cancel = tk.Button(self.master, text="Cancel", command=self.exit_application)
         self.cancel.place(x=270, y=100)
-        self.path = tk.Button(self.master, text="Select Path", command=None)
+        self.path = tk.Button(self.master, text="Select Path", command=self.select_path_from_button)
         self.path.place(x=350, y=40)
+
+    def create_listbox(self):
+        """
+        all Labels
+        """
+        self.listbox = tk.Listbox(self.master, width=41, height=30, bg='white')
+        self.listbox.place(x=10, y=140)
 
     def create_checkbox(self):
         """
@@ -92,34 +102,49 @@ class SearchMenu(tk.Frame):
         """
         all Labels
         """
-        self.create_date = tk.Button(self.master, text=".", command=self.enable_creation_date)
-        self.create_date.place(x=470, y=120)
+        self.create_date = tk.Button(self.master, text="Creation day: ", command=self.enable_creation_date)
+        self.create_date.place(x=350, y=130)
 
     def select_modification_date_button(self):
         """
         all Labels
         """
-        self.modify_date = tk.Button(self.master, text=".", command=self.enable_modification_date)
-        self.modify_date.place(x=470, y=180)
+        self.modify_date = tk.Button(self.master, text="Modification day: ", command=self.enable_modification_date)
+        self.modify_date.place(x=350, y=210)
 
     def select_last_date_button(self):
         """
         all Labels
         """
-        self.the_last_date = tk.Button(self.master, text=".", command=self.enable_last_date)
-        self.the_last_date.place(x=470, y=240)
-
+        self.the_last_date = tk.Button(self.master, text="Last Access day: ", command=self.enable_last_date)
+        self.the_last_date.place(x=350, y=290)
 
     def hidden_labels(self):
         """
         all Labels
         """
-        self.text_c_day = tk.Label(self.master, text="Creation day :")
-        self.text_c_day.place(x=350, y=130)
-        self.text_m_day = tk.Label(self.master, text="Modification day :")
-        self.text_m_day.place(x=350, y=190)
-        self.text_l_day = tk.Label(self.master, text="Last Access day :")
-        self.text_l_day.place(x=350, y=250)
+        self.text_start_date = tk.Label(self.master, text="Start Date")
+        self.text_start_date.place(x=355, y=165)
+        self.text_end_date = tk.Label(self.master, text="End Date")
+        self.text_end_date.place(x=485, y=165)
+
+    def hidden_labels_modification_date(self):
+        """
+        all Labels
+        """
+        self.text_start_date_modify = tk.Label(self.master, text="Start Date")
+        self.text_start_date_modify.place(x=355, y=240)
+        self.text_end_date_modify = tk.Label(self.master, text="End Date")
+        self.text_end_date_modify.place(x=485, y=240)
+
+    def hidden_labels_last_date(self):
+        """
+        all Labels
+        """
+        self.text_start_date_last = tk.Label(self.master, text="Start Date")
+        self.text_start_date_last.place(x=355, y=323)
+        self.text_end_date_last = tk.Label(self.master, text="End Date")
+        self.text_end_date_last.place(x=485, y=323)
 
     def hidden_creation_date(self):
         """
@@ -127,64 +152,78 @@ class SearchMenu(tk.Frame):
         """
         self.creation_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                             borderwidth=2)
-        self.creation_cal_start.place(x=350, y=155)
+        self.creation_cal_start.place(x=355, y=185)
         self.creation_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                           borderwidth=2)
-        self.creation_cal_end.place(x=480, y=155)
+        self.creation_cal_end.place(x=485, y=185)
 
     def hidden_modification_date(self):
         """
         all Labels
         """
         self.modification_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                            borderwidth=2)
-        self.modification_cal_start.place(x=350, y=215)
+                                                borderwidth=2)
+        self.modification_cal_start.place(x=355, y=265)
         self.modification_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                          borderwidth=2)
-        self.modification_cal_end.place(x=480, y=215)
+                                              borderwidth=2)
+        self.modification_cal_end.place(x=485, y=265)
 
     def hidden_last_date(self):
         """
         all Labels
         """
         self.last_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                                borderwidth=2)
-        self.last_cal_start.place(x=350, y=272)
+                                        borderwidth=2)
+        self.last_cal_start.place(x=355, y=345)
         self.last_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                              borderwidth=2)
-        self.last_cal_end.place(x=480, y=272)
+                                      borderwidth=2)
+        self.last_cal_end.place(x=485, y=345)
 
     def hidden_size_radiobutton(self):
         """
         all Labels
         """
+        self.text_size = tk.Label(self.master, text="Size")
+        self.text_size.place(x=355, y=390)
         self.var = tk.IntVar()
         self.radio_one = tk.Radiobutton(self.master, text="0 to 10 Mb", variable=self.var, value=1, command=None)
-        self.radio_one.place(x=350, y=300)
+        self.radio_one.place(x=350, y=410)
         self.radio_two = tk.Radiobutton(self.master, text="11 to 100 Mb", variable=self.var, value=2, command=None)
-        self.radio_two.place(x=350, y=320)
+        self.radio_two.place(x=350, y=430)
         self.radio_three = tk.Radiobutton(self.master, text="Greater than 101 Mb", variable=self.var, value=3,
                                           command=None)
-        self.radio_three.place(x=350, y=340)
+        self.radio_three.place(x=350, y=450)
+
+    def hidden_word_in_file(self):
+        """
+        all Labels
+        """
+        self.text_world_in_file = tk.Label(self.master, text="Word in file (only text files: )")
+        self.text_world_in_file.place(x=355, y=480)
+        self.word = tk.StringVar()
+        self.word_in_file = tk.Entry(self.master, textvariable=self.word, width=20)
+        self.word_in_file.place(x=350, y=500)
 
     def hidden_widgets(self):
         """
         UI configuration
         """
-        self.text_c_day.destroy()
-        self.text_m_day.destroy()
-        self.text_l_day.destroy()
         self.create_date.destroy()
         self.modify_date.destroy()
         self.the_last_date.destroy()
         self.radio_one.destroy()
         self.radio_two.destroy()
         self.radio_three.destroy()
+        self.text_size.destroy()
+        self.text_world_in_file.destroy()
+        self.word_in_file.destroy()
 
     def hidden_creation_calendar(self):
         """
         UI configuration
         """
+        self.text_start_date.destroy()
+        self.text_end_date.destroy()
         self.creation_cal_start.destroy()
         self.creation_cal_end.destroy()
 
@@ -192,6 +231,8 @@ class SearchMenu(tk.Frame):
         """
         UI configuration
         """
+        self.text_start_date_modify.destroy()
+        self.text_end_date_modify.destroy()
         self.modification_cal_start.destroy()
         self.modification_cal_end.destroy()
 
@@ -199,6 +240,8 @@ class SearchMenu(tk.Frame):
         """
         UI configuration
         """
+        self.text_start_date_last.destroy()
+        self.text_end_date_last.destroy()
         self.last_cal_start.destroy()
         self.last_cal_end.destroy()
 
@@ -207,11 +250,11 @@ class SearchMenu(tk.Frame):
         UI configuration
         """
         if self.hidden:
-            self.hidden_labels()
             self.select_creation_date_button()
             self.select_modification_date_button()
             self.select_last_date_button()
             self.hidden_size_radiobutton()
+            self.hidden_word_in_file()
         else:
             self.hidden_widgets()
         self.hidden = not self.hidden
@@ -221,6 +264,7 @@ class SearchMenu(tk.Frame):
         UI configuration
         """
         if self.creation_date:
+            self.hidden_labels()
             self.hidden_creation_date()
         else:
             self.hidden_creation_calendar()
@@ -232,6 +276,7 @@ class SearchMenu(tk.Frame):
         """
         if self.modification_date:
             self.hidden_modification_date()
+            self.hidden_labels_modification_date()
         else:
             self.hidden_modification_calendar()
         self.modification_date = not self.modification_date
@@ -242,9 +287,17 @@ class SearchMenu(tk.Frame):
         """
         if self.last_date:
             self.hidden_last_date()
+            self.hidden_labels_last_date()
         else:
             self.hidden_last_calendar()
         self.last_date = not self.last_date
+
+    def select_path_from_button(self):
+        """
+        UI configuration
+        """
+        self.filename = filedialog.askdirectory()
+        self.path_str.set(self.filename)
 
     def exit_application(self):
         """
@@ -252,15 +305,37 @@ class SearchMenu(tk.Frame):
         """
         self.master.destroy()
 
+    def search_criteria(self):
+        """
+        UI configuration
+        """
+        get_path = self.path_str.get()
+        get_key = self.key_str.get()
+        self._search_criteria.set_search_filter({'path': get_path})
+        self._search_criteria.set_search_filter({"file_name": get_key})
+        list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
+
+        for value in list_d:
+            self.listbox.insert(END, "----------------------------------------------------------------------")
+            self.listbox.insert(END, value.get_file_name())
+            if not value.get_is_directory():
+                self.listbox.insert(END, "File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
+                self.listbox.insert(END, "creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
+                self.listbox.insert(END, "last modification date: %s" % time.asctime(
+                    time.localtime(value.get_last_modification_date())))
+                self.listbox.insert(END,
+                                    "last access date: %s" % time.asctime(time.localtime(value.get_last_access_time())))
+                self.listbox.insert(END, "---------------------------------------------------------------------------")
+        self.listbox.insert(END, "Total files matched: %s" % self.search_obj.get_total_matches())
+
 
 def main():
     hidden = True
     modification_date = True
     creation_date = True
     last_date = True
-    radio = True
     root = tk.Tk()
-    SearchMenu(root, hidden, modification_date, creation_date, last_date, radio)
+    SearchMenu(root, hidden, modification_date, creation_date, last_date)
     root.mainloop()
 
 
