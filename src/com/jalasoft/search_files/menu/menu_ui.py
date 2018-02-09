@@ -5,7 +5,7 @@ Menu UI
 import tkinter as tk
 from tkcalendar import DateEntry
 from tkinter import filedialog
-from tkinter import *
+from tkinter import ttk
 
 import time
 
@@ -37,8 +37,7 @@ class SearchMenu(tk.Frame):
         UI configuration
         """
         self.master.title('Menu Search')
-        self.master.configure(width=650, height=600)
-        # self.place(relwidth=1, relheight=1)
+        self.master.configure(width=1432, height=700)
 
     def create_widgets(self):
         """
@@ -48,7 +47,8 @@ class SearchMenu(tk.Frame):
         self.create_textbox()
         self.create_buttons()
         self.create_checkbox()
-        self.create_listbox()
+        # self.create_listbox()
+        self.result_of_search()
 
     def create_labels(self):
         """
@@ -103,48 +103,48 @@ class SearchMenu(tk.Frame):
         all Labels
         """
         self.create_date = tk.Button(self.master, text="Creation day: ", command=self.enable_creation_date)
-        self.create_date.place(x=350, y=130)
+        self.create_date.place(x=470, y=10)
 
     def select_modification_date_button(self):
         """
         all Labels
         """
         self.modify_date = tk.Button(self.master, text="Modification day: ", command=self.enable_modification_date)
-        self.modify_date.place(x=350, y=210)
+        self.modify_date.place(x=730, y=10)
 
     def select_last_date_button(self):
         """
         all Labels
         """
         self.the_last_date = tk.Button(self.master, text="Last Access day: ", command=self.enable_last_date)
-        self.the_last_date.place(x=350, y=290)
+        self.the_last_date.place(x=990, y=10)
 
     def hidden_labels(self):
         """
         all Labels
         """
         self.text_start_date = tk.Label(self.master, text="Start Date")
-        self.text_start_date.place(x=355, y=165)
+        self.text_start_date.place(x=470, y=42)
         self.text_end_date = tk.Label(self.master, text="End Date")
-        self.text_end_date.place(x=485, y=165)
+        self.text_end_date.place(x=595, y=42)
 
     def hidden_labels_modification_date(self):
         """
         all Labels
         """
         self.text_start_date_modify = tk.Label(self.master, text="Start Date")
-        self.text_start_date_modify.place(x=355, y=240)
+        self.text_start_date_modify.place(x=730, y=42)
         self.text_end_date_modify = tk.Label(self.master, text="End Date")
-        self.text_end_date_modify.place(x=485, y=240)
+        self.text_end_date_modify.place(x=855, y=42)
 
     def hidden_labels_last_date(self):
         """
         all Labels
         """
         self.text_start_date_last = tk.Label(self.master, text="Start Date")
-        self.text_start_date_last.place(x=355, y=323)
+        self.text_start_date_last.place(x=990, y=42)
         self.text_end_date_last = tk.Label(self.master, text="End Date")
-        self.text_end_date_last.place(x=485, y=323)
+        self.text_end_date_last.place(x=1115, y=42)
 
     def hidden_creation_date(self):
         """
@@ -153,10 +153,10 @@ class SearchMenu(tk.Frame):
         self.create_date_value = tk.StringVar()
         self.creation_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                             borderwidth=2, textvariable=self.create_date_value)
-        self.creation_cal_start.place(x=355, y=185)
+        self.creation_cal_start.place(x=470, y=65)
         self.creation_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                           borderwidth=2)
-        self.creation_cal_end.place(x=485, y=185)
+        self.creation_cal_end.place(x=595, y=65)
 
     def hidden_modification_date(self):
         """
@@ -164,10 +164,10 @@ class SearchMenu(tk.Frame):
         """
         self.modification_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                                 borderwidth=2)
-        self.modification_cal_start.place(x=355, y=265)
+        self.modification_cal_start.place(x=730, y=65)
         self.modification_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                               borderwidth=2)
-        self.modification_cal_end.place(x=485, y=265)
+        self.modification_cal_end.place(x=855, y=65)
 
     def hidden_last_date(self):
         """
@@ -175,35 +175,35 @@ class SearchMenu(tk.Frame):
         """
         self.last_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                         borderwidth=2)
-        self.last_cal_start.place(x=355, y=345)
+        self.last_cal_start.place(x=990, y=65)
         self.last_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                       borderwidth=2)
-        self.last_cal_end.place(x=485, y=345)
+        self.last_cal_end.place(x=1115, y=65)
 
     def hidden_size_radiobutton(self):
         """
         all Labels
         """
         self.text_size = tk.Label(self.master, text="Size")
-        self.text_size.place(x=355, y=390)
+        self.text_size.place(x=470, y=90)
         self.var = tk.IntVar()
         self.radio_one = tk.Radiobutton(self.master, text="0 to 10 Mb", variable=self.var, value=1, command=None)
-        self.radio_one.place(x=350, y=410)
+        self.radio_one.place(x=470, y=110)
         self.radio_two = tk.Radiobutton(self.master, text="11 to 100 Mb", variable=self.var, value=2, command=None)
-        self.radio_two.place(x=350, y=430)
+        self.radio_two.place(x=470, y=130)
         self.radio_three = tk.Radiobutton(self.master, text="Greater than 101 Mb", variable=self.var, value=3,
                                           command=None)
-        self.radio_three.place(x=350, y=450)
+        self.radio_three.place(x=470, y=150)
 
     def hidden_word_in_file(self):
         """
         all Labels
         """
         self.text_world_in_file = tk.Label(self.master, text="Word in file (only text files: )")
-        self.text_world_in_file.place(x=355, y=480)
+        self.text_world_in_file.place(x=730, y=90)
         self.word = tk.StringVar()
         self.word_in_file = tk.Entry(self.master, textvariable=self.word, width=20)
-        self.word_in_file.place(x=350, y=500)
+        self.word_in_file.place(x=730, y=110)
 
     def hidden_widgets(self):
         """
@@ -306,6 +306,21 @@ class SearchMenu(tk.Frame):
         """
         self.master.destroy()
 
+    def result_of_search(self):
+        """
+        UI configuration
+        """
+        self.treeview = ttk.Treeview(self.master, columns=("size", "type", "creation date", "last modification date",
+                                                           "last access date", "owner"), height=24)
+        self.treeview.heading("#0", text="Archive")
+        self.treeview.heading("size", text="Size")
+        self.treeview.heading("type", text="Type")
+        self.treeview.heading("creation date", text="Creation Date")
+        self.treeview.heading("last modification date", text="Modification Date")
+        self.treeview.heading("last access date", text="Last access Date")
+        self.treeview.heading("owner", text="Owner")
+        self.treeview.place(x=10, y=180)
+
     def search_criteria(self):
         """
         UI configuration
@@ -321,17 +336,25 @@ class SearchMenu(tk.Frame):
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
 
         for value in list_d:
-            self.listbox.insert(END, "----------------------------------------------------------------------")
-            self.listbox.insert(END, value.get_file_name())
-            if not value.get_is_directory():
-                self.listbox.insert(END, "File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
-                self.listbox.insert(END, "creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
-                self.listbox.insert(END, "last modification date: %s" % time.asctime(
-                    time.localtime(value.get_last_modification_date())))
-                self.listbox.insert(END,
-                                    "last access date: %s" % time.asctime(time.localtime(value.get_last_access_time())))
-                self.listbox.insert(END, "---------------------------------------------------------------------------")
-        self.listbox.insert(END, "Total files matched: %s" % self.search_obj.get_total_matches())
+            self.treeview.insert("", tk.END, text=value.get_file_name(),
+                                 values=(str(int(value.get_file_size()) / 1000000),
+                                         "",
+                                         time.asctime(time.localtime(value.get_creation_time())),
+                                         time.asctime(time.localtime(value.get_last_modification_date())),
+                                         time.asctime(time.localtime(value.get_last_modification_date())), ""))
+
+        # for value in list_d:
+        #     self.listbox.insert(END, "----------------------------------------------------------------------")
+        #     self.listbox.insert(END, value.get_file_name())
+        #     if not value.get_is_directory():
+        #         self.listbox.insert(END, "File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
+        #         self.listbox.insert(END, "creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
+        #         self.listbox.insert(END, "last modification date: %s" % time.asctime(
+        #             time.localtime(value.get_last_modification_date())))
+        #         self.listbox.insert(END,
+        #                             "last access date: %s" % time.asctime(time.localtime(value.get_last_access_time())))
+        #         self.listbox.insert(END, "---------------------------------------------------------------------------")
+        # self.listbox.insert(END, "Total files matched: %s" % self.search_obj.get_total_matches())
 
 
 def main():
