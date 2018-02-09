@@ -94,7 +94,7 @@ class SearchMenu(tk.Frame):
         """
         all buttons
         """
-        self.advanced = tk.Checkbutton(self.master, text="Advance", variable=None, onvalue=True,
+        self.advanced = tk.Checkbutton(self.master, text="Advanced", variable=None, onvalue=True,
                                        command=self.hidden_with_checkbox)
         self.advanced.place(x=350, y=100)
 
@@ -150,8 +150,9 @@ class SearchMenu(tk.Frame):
         """
         all Labels
         """
+        self.create_date_value = tk.StringVar()
         self.creation_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                            borderwidth=2)
+                                            borderwidth=2, textvariable=self.create_date_value)
         self.creation_cal_start.place(x=355, y=185)
         self.creation_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                           borderwidth=2)
@@ -311,6 +312,10 @@ class SearchMenu(tk.Frame):
         """
         get_path = self.path_str.get()
         get_key = self.key_str.get()
+
+        # get_date = self.create_date_value.get()
+        # print(self.create_date_value.get())
+
         self._search_criteria.set_search_filter({'path': get_path})
         self._search_criteria.set_search_filter({"file_name": get_key})
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
