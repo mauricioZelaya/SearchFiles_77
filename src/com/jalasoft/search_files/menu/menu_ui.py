@@ -338,7 +338,7 @@ class SearchMenu(tk.Frame):
         for value in list_d:
             self.treeview.insert("", tk.END, text=value.get_file_name(),
                                  values=(str(int(value.get_file_size()) / 1000000),
-                                         "",
+                                         value.get_file_type(),
                                          time.asctime(time.localtime(value.get_creation_time())),
                                          time.asctime(time.localtime(value.get_last_modification_date())),
                                          time.asctime(time.localtime(value.get_last_modification_date())), ""))
