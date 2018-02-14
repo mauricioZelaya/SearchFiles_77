@@ -4,13 +4,11 @@ all the desired filters
 """
 import os
 
-import datetime
-import time
-
-from src.com.jalasoft.search_files.search import asset
+# from src.com.jalasoft.search_files.search.asset import Asset
+from src.com.jalasoft.search_files.search.file import File
+from src.com.jalasoft.search_files.search.folder import Folder
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 from src.com.jalasoft.search_files.utils import utils
-from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 
 
 class Search(object):
@@ -43,21 +41,23 @@ class Search(object):
         list_dir = []
         search_criteria_values = self._search_criteria.get_search_filter()
 
+        LOGGER.info("getting all the directories and files from path START")
         for root, dirs, files in os.walk(search_criteria_values['path'], topdown=False):
             if search_criteria_values['criteria'] == 2 or search_criteria_values['criteria'] == 3:
                 for value in dirs:
-                    directory = asset.Folder()
+                    directory = Folder()
                     directory.set_file_name(os.path.join(root, value))
                     directory.set_is_directory(True)
                     list_dir.append(directory)
             if search_criteria_values['criteria'] == 1 or search_criteria_values['criteria'] == 3:
                 for value in files:
                     file_name = os.path.join(root, value)
-                    file = asset.File()
+                    file = File()
                     file.set_file_name(file_name)
                     file.set_is_directory(False)
                     file.set_file_size(os.path.getsize(file_name))
                     list_dir.append(file)
+        LOGGER.info("getting all the directories and files from path START")
         return list_dir
 
     def create_list_of_ocurrences(self, search_criteria):
