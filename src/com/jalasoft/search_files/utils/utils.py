@@ -1,13 +1,37 @@
 """
 This package is for utilities, methods that will help to validate inputs
 """
-import calendar
 import os
-
+import calendar
 import datetime
-
+import time
 import config.config as config
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
+
+
+def are_date_valid(initial_date, end_date):
+    """
+    This method validate a date, it verify that the end date is further than the initial date.
+    :param initial_date: String in form of date eg "dd/mm/yy".
+    :param end_date: String in form of date eg "dd/mm/yy".
+    :return: True if the date is valid
+    """
+
+    try:
+        initial_date = time.strptime(initial_date, "%d/%m/%Y")
+        end_date = time.strptime(end_date, "%d/%m/%Y")
+        if end_date > initial_date:
+            LOGGER.info("The dates are correct: {}, {}".format(initial_date, end_date))
+            return True
+        else:
+            LOGGER.error("The dates are incorrect: {}, {}".format(initial_date, end_date))
+            return {"message": "The end final date is before initial date",
+                    "valid": False}
+    except:
+        LOGGER.error("Invalid date format: {}, {}".format(initial_date, end_date))
+        return {"message": "invalid date format",
+                "valid": False}
+
 
 def is_a_valid_path(path=None):
     """
@@ -85,6 +109,15 @@ def convert_to_epoch_time(year, month, day):
     return calendar.timegm(datetime.datetime(year, month, day, 0, 0).timetuple())
 
 
+def is_document_text(document):
+    print(document)
+    try:
+        open(document).read(512)
+        return True
+    except:
+        return False
+
+
 def date_to_epoch_time(date_to_convert):
     """
 
@@ -94,8 +127,3 @@ def date_to_epoch_time(date_to_convert):
     """
     init_date = date_to_convert.split('/')
     return convert_to_epoch_time(int(init_date[0]), int(init_date[1]), int(init_date[2]))
-
-
-def is_user_value_valid(user_value, option):
-    pass
-

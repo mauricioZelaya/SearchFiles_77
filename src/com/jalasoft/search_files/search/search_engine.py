@@ -93,9 +93,9 @@ class Search(object):
         """
         filter_list = search_criteria.get_search_filter()
         basic_search_result_list = basic_result_list
-        if not filter_list['start_creation_date'] is None and not filter_list['end_creation_date'] is None:
-            start_creation_date = filter_list['start_creation_date']
-            end_creation_date = filter_list['end_creation_date']
+        if not filter_list['creation_date']['start_date'] is None and not filter_list['creation_date']['end_date'] is None:
+            start_creation_date = filter_list['creation_date']['start_date']
+            end_creation_date = filter_list['creation_date']['end_date']
             basic_search_result_list = self.advanced_search_by_creation_time(basic_search_result_list,
                                                                              utils.date_to_epoch_time(
                                                                                  start_creation_date)
@@ -103,15 +103,14 @@ class Search(object):
                                                                              utils.date_to_epoch_time(end_creation_date)
                                                                              )
 
-        if not filter_list['start_modification_date'] is None and not filter_list['end_modification_date'] is None:
-            start_modification_date = filter_list['start_modification_date']
-            end_modification_date = filter_list['end_modification_date']
+        if not filter_list['modification_date']['start_date'] is None and not filter_list['modification_date']['end_date'] is None:
+            start_modification_date = filter_list['modification_date']['start_date']
+            end_modification_date = filter_list['modification_date']['end_date']
             basic_search_result_list = self.advanced_search_by_modification_time(basic_search_result_list,
-                                                                             utils.date_to_epoch_time(
-                                                                                 start_modification_date)
-                                                                             ,
-                                                                             utils.date_to_epoch_time(end_modification_date)
-                                                                             )
+                                                                                 utils.date_to_epoch_time
+                                                                                 (start_modification_date),
+                                                                                 utils.date_to_epoch_time
+                                                                                 (end_modification_date))
         return basic_search_result_list
 
     def advanced_search_by_creation_time(self, basic_search_result_list, start_date, end_date):
@@ -147,27 +146,27 @@ class Search(object):
         return list_of_found
 
 
-# search_criteria = SearchCriteria()
-# search_criteria.set_search_filter({"advance_flag": True,
-#                                    "criteria": 1,
-#                                    "path": 'D:\\',
-#                                    "size": None,
-#                                    "start_creation_date": None,
-#                                    "end_creation_date": None,
-#                                    "start_modification_date": '2018/01/13',
-#                                    "end_modification_date": '2018/01/30',
-#                                    "start_last_access_date": None,
-#                                    "end_last_access_date": None,
-#                                    "extension": None,
-#                                    "file_name": 'Franco',
-#                                    "directory_name": None,
-#                                    "hidden": None})
-#
-# search = Search(search_criteria)
-# listM = search.create_list_of_ocurrences(search_criteria)
-# for value in listM:
-#     print(value.get_file_name())
-#     print("File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
-#     print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
+search_criteria = SearchCriteria()
+search_criteria.set_search_filter({"advance_flag": True,
+                                   "criteria": 1,
+                                   "path": 'D:\\',
+                                   "size": None,
+                                   "start_creation_date": None,
+                                   "end_creation_date": None,
+                                   "start_modification_date": '2018/01/13',
+                                   "end_modification_date": '2018/01/30',
+                                   "start_last_access_date": None,
+                                   "end_last_access_date": None,
+                                   "extension": None,
+                                   "file_name": 'Franco',
+                                   "directory_name": None,
+                                   "hidden": None})
+
+search = Search(search_criteria)
+listM = search.create_list_of_ocurrences(search_criteria)
+for value in listM:
+    print(value.get_file_name())
+    print("File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
+    print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
 # print('hi')
 # print(os.path.basename('D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\\test\mauricio.txt'))

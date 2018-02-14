@@ -8,6 +8,35 @@ import config.config as config
 import src.com.jalasoft.search_files.utils.utils as utils
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
+
+@pytest.mark.utils
+def test_is_date_valid_invalid_date_input():
+    date_1 = 1254
+    date_2 = "11/3/2018"
+
+    assert not utils.are_date_valid(date_1, date_2)["valid"]
+
+@pytest.mark.utils
+def test_is_date_valid_invalid_date_format():
+    date_1 = "asdfg"
+    date_2 = "11/3/2018"
+
+    assert not utils.are_date_valid(date_1, date_2)["valid"]
+
+@pytest.mark.utils
+def test_is_date_valid_invalid_date():
+    date_1 = "10/2/2017"
+    date_2 = "11/3/2015"
+
+    assert not utils.are_date_valid(date_1, date_2)["valid"]
+
+@pytest.mark.utils
+def test_is_date_valid_valid_date():
+    date_1 = "10/2/2017"
+    date_2 = "11/3/2018"
+
+    assert utils.are_date_valid(date_1, date_2)
+
 @pytest.mark.utils
 def test_is_a_valid_path_with_valid_path():
     """
@@ -155,3 +184,29 @@ def test_is_object_not_a_directory():
     assert not utils.is_object_directory(path)
 
     LOGGER.info("=========test_is_object_not_a_directory has PASSED=========")
+
+@pytest.mark.utils
+def test_is_object_a_text_file():
+    """
+    This test will verify that the object is a text file
+    :return: None
+    """
+    LOGGER.info("=========test_is_object_a_text_file is starting=========")
+
+    text_file = "/home/slevin/test/test_file"
+    assert utils.is_document_text(text_file)
+
+    LOGGER.info("=========test_is_object_a_text_file has PASSED=========")
+
+@pytest.mark.utils
+def test_is_object_not_a_text_file():
+    """
+    This test will verify that the object is a text file
+    :return: None
+    """
+    LOGGER.info("=========test_is_object_a_text_file is starting=========")
+
+    text_file = "/home/slevin/test/812062.png"
+    assert not utils.is_document_text(text_file)
+
+    LOGGER.info("=========test_is_object_a_text_file has PASSED=========")
