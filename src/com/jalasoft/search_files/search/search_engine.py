@@ -119,6 +119,16 @@ class Search(object):
                                                                                  (start_modification_date),
                                                                                  utils.date_to_epoch_time
                                                                                  (end_modification_date))
+
+        if not filter_list['last_access_date']['start_date'] is None and not \
+                filter_list['last_access_date']['end_date'] is None:
+            start_modification_date = filter_list['last_access_date']['start_date']
+            end_modification_date = filter_list['last_access_date']['end_date']
+            basic_search_result_list = self.advanced_search_by_last_access_date(basic_search_result_list,
+                                                                                utils.date_to_epoch_time
+                                                                                (start_modification_date),
+                                                                                utils.date_to_epoch_time
+                                                                                (end_modification_date))
         return basic_search_result_list
 
     def advanced_search_by_creation_time(self, basic_search_result_list, start_date, end_date):
@@ -153,3 +163,18 @@ class Search(object):
                 self._total_of_matches += 1
         return list_of_found
 
+    def advanced_search_by_last_access_date(self, basic_search_result_list, start_date, end_date):
+        """
+        this method will create a list of results according the last access date
+        :param basic_search_result_list:
+        :param start_date:
+        :param end_date:
+        :return:
+        """
+        list_of_found = []
+        self._total_of_matches = 0
+        for result in basic_search_result_list:
+            if start_date <= result.get_last_access_time() <= end_date:
+                list_of_found.append(result)
+                self._total_of_matches += 1
+        return list_of_found
