@@ -3,14 +3,13 @@ class Search_Engine perform the search on a given path of a given file_name appl
 all the desired filters
 """
 import os
+
 import filetype
 
-
-from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 from src.com.jalasoft.search_files.search.file import File
 from src.com.jalasoft.search_files.search.folder import Folder
-from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 from src.com.jalasoft.search_files.utils import utils
+from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
 
 class Search(object):
@@ -85,7 +84,7 @@ class Search(object):
             if file_keyword in os.path.basename(result.get_file_name()):
                 kind = filetype.guess(result.get_file_name())
                 if kind is not None:
-                    result.set_file_type(kind.extension)
+                    result.set_file_type(kind.mime)
                 else:
                     result.set_file_type('unknown')
                 list_of_found.append(result)
