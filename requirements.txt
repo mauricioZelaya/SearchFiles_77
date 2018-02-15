@@ -4,5 +4,5 @@
 pylint==1.8.2
 pytest==3.3.2
 python3-tk
-tkcalendar
-
+tkcalendar==1.1.4
+filetype==1.0.0

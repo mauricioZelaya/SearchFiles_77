@@ -12,6 +12,7 @@ class Asset(object):
     def __init__(self):
         self._file_name = ''
         self._file_size = 0
+        self._file_type = ''
         self.is_directory = False
 
     def get_file_name(self):
@@ -56,53 +57,10 @@ class Asset(object):
         """
         return os.path.getmtime(self._file_name)
 
-
-class File(Asset):
-    """
-
-    """
-    def set_file_name(self, file_name):
+    def get_file_type(self):
         """
 
-        :param file_name:
         :return:
         """
-        self._file_name = file_name
+        return self._file_type
 
-    def set_file_size(self, file_size):
-        """
-
-        :param file_size:
-        :return:
-        """
-        self._file_size = file_size
-
-    def set_is_directory(self, is_directory):
-        """
-
-        :param is_directory:
-        :return:
-        """
-        self.is_directory = is_directory
-
-
-class Folder(Asset):
-    """
-
-    """
-
-    def set_file_name(self, file_name):
-        """
-
-        :param file_name:
-        :return:
-        """
-        self._file_name = file_name
-
-    def set_is_directory(self, is_directory):
-        """
-
-        :param is_directory:
-        :return:
-        """
-        self.is_directory = is_directory
