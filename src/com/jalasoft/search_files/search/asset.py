@@ -12,6 +12,7 @@ class Asset(object):
     def __init__(self):
         self._file_name = ''
         self._file_size = 0
+        self._file_type = ''
         self.is_directory = False
 
     def get_file_name(self):
@@ -55,3 +56,11 @@ class Asset(object):
         :return:
         """
         return os.path.getmtime(self._file_name)
+
+    def get_file_type(self):
+        """
+
+        :return:
+        """
+        return self._file_type
+

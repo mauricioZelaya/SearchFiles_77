@@ -3,8 +3,10 @@ class Search_Engine perform the search on a given path of a given file_name appl
 all the desired filters
 """
 import os
+import filetype
 
-# from src.com.jalasoft.search_files.search.asset import Asset
+
+from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 from src.com.jalasoft.search_files.search.file import File
 from src.com.jalasoft.search_files.search.folder import Folder
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
@@ -81,6 +83,11 @@ class Search(object):
         list_from_path = self.print_directory()
         for result in list_from_path:
             if file_keyword in os.path.basename(result.get_file_name()):
+                kind = filetype.guess(result.get_file_name())
+                if kind is not None:
+                    result.set_file_type(kind.extension)
+                else:
+                    result.set_file_type('unknown')
                 list_of_found.append(result)
                 self._total_of_matches += 1
         return list_of_found
@@ -93,7 +100,8 @@ class Search(object):
         """
         filter_list = search_criteria.get_search_filter()
         basic_search_result_list = basic_result_list
-        if not filter_list['creation_date']['start_date'] is None and not filter_list['creation_date']['end_date'] is None:
+        if not filter_list['creation_date']['start_date'] is None and not \
+                filter_list['creation_date']['end_date'] is None:
             start_creation_date = filter_list['creation_date']['start_date']
             end_creation_date = filter_list['creation_date']['end_date']
             basic_search_result_list = self.advanced_search_by_creation_time(basic_search_result_list,
@@ -103,7 +111,8 @@ class Search(object):
                                                                              utils.date_to_epoch_time(end_creation_date)
                                                                              )
 
-        if not filter_list['modification_date']['start_date'] is None and not filter_list['modification_date']['end_date'] is None:
+        if not filter_list['modification_date']['start_date'] is None and not \
+                filter_list['modification_date']['end_date'] is None:
             start_modification_date = filter_list['modification_date']['start_date']
             end_modification_date = filter_list['modification_date']['end_date']
             basic_search_result_list = self.advanced_search_by_modification_time(basic_search_result_list,
@@ -145,28 +154,3 @@ class Search(object):
                 self._total_of_matches += 1
         return list_of_found
 
-
-search_criteria = SearchCriteria()
-search_criteria.set_search_filter({"advance_flag": True,
-                                   "criteria": 1,
-                                   "path": 'D:\\',
-                                   "size": None,
-                                   "start_creation_date": None,
-                                   "end_creation_date": None,
-                                   "start_modification_date": '2018/01/13',
-                                   "end_modification_date": '2018/01/30',
-                                   "start_last_access_date": None,
-                                   "end_last_access_date": None,
-                                   "extension": None,
-                                   "file_name": 'Franco',
-                                   "directory_name": None,
-                                   "hidden": None})
-
-search = Search(search_criteria)
-listM = search.create_list_of_ocurrences(search_criteria)
-for value in listM:
-    print(value.get_file_name())
-    print("File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
-    print("creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
-# print('hi')
-# print(os.path.basename('D:\MauricioZ\Documments\Courses\Dev Fundamentals\module_2\SearchFiles_77\\test\mauricio.txt'))

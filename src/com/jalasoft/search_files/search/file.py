@@ -9,6 +9,10 @@ class File(Asset):
     """
 
     """
+
+    # def __init__(self):
+    #     super().__init__()
+
     def set_file_name(self, file_name):
         """
 
@@ -32,3 +36,11 @@ class File(Asset):
         :return:
         """
         self.is_directory = is_directory
+
+    def set_file_type(self, file_type):
+        """
+
+        :param file_type:
+        :return:
+        """
+        self._file_type = file_type
