@@ -25,12 +25,10 @@ def are_date_valid(initial_date, end_date):
             return True
         else:
             LOGGER.error("The dates are incorrect: {}, {}".format(initial_date, end_date))
-            return {"message": "The end final date is before initial date",
-                    "valid": False}
+            return False
     except:
         LOGGER.error("Invalid date format: {}, {}".format(initial_date, end_date))
-        return {"message": "invalid date format",
-                "valid": False}
+        return False
 
 
 def is_a_valid_path(path=None):
@@ -106,7 +104,7 @@ def convert_to_epoch_time(year, month, day):
     :param day:
     :return:
     """
-    return calendar.timegm(datetime.datetime(year, month, day, 0, 0).timetuple())
+    return calendar.timegm(datetime.datetime(month, day, year, 0, 0).timetuple())
 
 
 def is_document_text(document):
@@ -126,4 +124,4 @@ def date_to_epoch_time(date_to_convert):
     :return:
     """
     init_date = date_to_convert.split('/')
-    return convert_to_epoch_time(int(init_date[0]), int(init_date[1]), int(init_date[2]))
+    return convert_to_epoch_time(int(init_date[1]), int(init_date[2]), int(init_date[0]))
