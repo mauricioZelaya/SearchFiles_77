@@ -395,6 +395,7 @@ class SearchMenu(tk.Frame):
                 self.list_of_result.insert("", tk.END, text="No results found", values="")
 
 
+
 def main():
     hidden = True
     modification_date = True

@@ -13,13 +13,13 @@ class File(Asset):
     # def __init__(self):
     #     super().__init__()
 
-    def set_file_name(self, file_name):
-        """
-
-        :param file_name:
-        :return:
-        """
-        self._file_name = file_name
+    # def set_file_name(self, file_name):
+    #     """
+    #
+    #     :param file_name:
+    #     :return:
+    #     """
+    #     self._file_name = file_name
 
     def set_file_size(self, file_size):
         """
