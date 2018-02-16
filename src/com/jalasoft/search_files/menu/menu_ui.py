@@ -6,11 +6,13 @@ import tkinter as tk
 from tkcalendar import DateEntry
 from tkinter import filedialog
 from tkinter import ttk
+from tkinter import messagebox
 
 import time
 
 from src.com.jalasoft.search_files.search.search_engine import Search
 from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
+from src.com.jalasoft.search_files.utils import utils
 
 
 class SearchMenu(tk.Frame):
@@ -154,30 +156,35 @@ class SearchMenu(tk.Frame):
         self.creation_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
                                             borderwidth=2, textvariable=self.create_date_value)
         self.creation_cal_start.place(x=470, y=65)
+        self.create_date_end_value = tk.StringVar()
         self.creation_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                          borderwidth=2)
+                                          borderwidth=2, textvariable=self.create_date_end_value)
         self.creation_cal_end.place(x=595, y=65)
 
     def hidden_modification_date(self):
         """
         all Labels
         """
+        self.modification_date_value = tk.StringVar()
         self.modification_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                                borderwidth=2)
+                                                borderwidth=2, textvariable=self.modification_date_value)
         self.modification_cal_start.place(x=730, y=65)
+        self.modification_date_end_value = tk.StringVar()
         self.modification_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                              borderwidth=2)
+                                              borderwidth=2, textvariable=self.modification_date_end_value)
         self.modification_cal_end.place(x=855, y=65)
 
     def hidden_last_date(self):
         """
         all Labels
         """
+        self.last_date_value = tk.StringVar()
         self.last_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                        borderwidth=2)
+                                        borderwidth=2, textvariable=self.last_date_value)
         self.last_cal_start.place(x=990, y=65)
+        self.last_date_end_value = tk.StringVar()
         self.last_cal_end = DateEntry(self.master, width=12, background='darkblue', foreground='white',
-                                      borderwidth=2)
+                                      borderwidth=2, textvariable=self.last_date_value)
         self.last_cal_end.place(x=1115, y=65)
 
     def hidden_size_radiobutton(self):
@@ -258,6 +265,15 @@ class SearchMenu(tk.Frame):
             self.hidden_word_in_file()
         else:
             self.hidden_widgets()
+            if not self.creation_date:
+                self.hidden_creation_calendar()
+            if not self.modification_date:
+                self.hidden_modification_calendar()
+            if not self.last_date:
+                self.hidden_last_calendar()
+            self.creation_date = True
+            self.modification_date = True
+            self.last_date = True
         self.hidden = not self.hidden
 
     def enable_creation_date(self):
@@ -321,40 +337,53 @@ class SearchMenu(tk.Frame):
         self.treeview.heading("owner", text="Owner")
         self.treeview.place(x=10, y=180)
 
+    def valid_date_message_error(self):
+        """
+        UI configuration
+        """
+        messagebox.showerror("Error", "The end final date is before initial date or invalid date format")
+
     def search_criteria(self):
         """
         UI configuration
         """
         get_path = self.path_str.get()
         get_key = self.key_str.get()
-
-        # get_date = self.create_date_value.get()
-        # print(self.create_date_value.get())
-
-        self._search_criteria.set_search_filter({'path': get_path})
+        self._search_criteria.set_search_filter({"path": get_path})
         self._search_criteria.set_search_filter({"file_name": get_key})
+        if not self.hidden:
+            self._search_criteria.set_search_filter({"advance_flag": True})
+            if not self.creation_date:
+                get_creation_start_date = self.create_date_value.get()
+                get_creation_end_date = self.create_date_end_value.get()
+                valid_date = utils.are_date_valid(get_creation_start_date, get_creation_end_date)
+                if valid_date:
+                    self._search_criteria.set_search_filter({"creation_date": {"start_date": get_creation_start_date,
+                                                                               "end_date": get_creation_end_date}})
+                else:
+                    self.valid_date_message_error()
+            if not self.modification_date:
+                get_modification_start_date = self.modification_date_value.get()
+                get_modification_end_date = self.modification_date_end_value.get()
+                self._search_criteria.set_search_filter({"modification_date": {
+                    "start_date": get_modification_start_date,
+                    "end_date": get_modification_end_date}})
+            if not self.last_date:
+                get_last_start_date = self.last_date_value.get()
+                get_last_end_date = self.last_date_end_value.get()
+                self._search_criteria.set_search_filter({"last_access_date": {"start_date": get_last_start_date,
+                                                                              "end_date": get_last_end_date}})
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
-
-        for value in list_d:
-            self.treeview.insert("", tk.END, text=value.get_file_name(),
-                                 values=(str(int(value.get_file_size()) / 1000000),
-                                         value.get_file_type(),
-                                         time.asctime(time.localtime(value.get_creation_time())),
-                                         time.asctime(time.localtime(value.get_last_modification_date())),
-                                         time.asctime(time.localtime(value.get_last_modification_date())), ""))
-
-        # for value in list_d:
-        #     self.listbox.insert(END, "----------------------------------------------------------------------")
-        #     self.listbox.insert(END, value.get_file_name())
-        #     if not value.get_is_directory():
-        #         self.listbox.insert(END, "File Size: %s Mbytes" % str(int(value.get_file_size()) / 1000000))
-        #         self.listbox.insert(END, "creation date: %s" % time.asctime(time.localtime(value.get_creation_time())))
-        #         self.listbox.insert(END, "last modification date: %s" % time.asctime(
-        #             time.localtime(value.get_last_modification_date())))
-        #         self.listbox.insert(END,
-        #                             "last access date: %s" % time.asctime(time.localtime(value.get_last_access_time())))
-        #         self.listbox.insert(END, "---------------------------------------------------------------------------")
-        # self.listbox.insert(END, "Total files matched: %s" % self.search_obj.get_total_matches())
+        if list_d:
+            for value in list_d:
+                self.treeview.insert("", tk.END, text=value.get_file_name(),
+                                     values=(str(int(value.get_file_size()) / 1000000),
+                                             value.get_file_type(),
+                                             time.asctime(time.localtime(value.get_creation_time())),
+                                             time.asctime(time.localtime(value.get_last_modification_date())),
+                                             time.asctime(time.localtime(value.get_last_modification_date())), ""))
+        else:
+            self.treeview.insert("", tk.END, text="No results found", values="")
 
 
 def main():
