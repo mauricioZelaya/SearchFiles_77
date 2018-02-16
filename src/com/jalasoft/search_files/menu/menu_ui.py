@@ -19,7 +19,7 @@ class SearchMenu(tk.Frame):
     """
     Start menu
     """
-    def __init__(self, parent, hidden, creation_date, modification_date, last_date):
+    def __init__(self, parent, hidden, creation_date, modification_date, last_date, error):
         """
         Start menu
         """
@@ -28,6 +28,7 @@ class SearchMenu(tk.Frame):
         self.modification_date = modification_date
         self.last_date = last_date
         self.hidden = hidden
+        self.error = error
         tk.Frame.__init__(self, self.master)
         self.configure_gui()
         self.create_widgets()
@@ -326,16 +327,20 @@ class SearchMenu(tk.Frame):
         """
         UI configuration
         """
-        self.treeview = ttk.Treeview(self.master, columns=("size", "type", "creation date", "last modification date",
-                                                           "last access date", "owner"), height=24)
-        self.treeview.heading("#0", text="Archive")
-        self.treeview.heading("size", text="Size")
-        self.treeview.heading("type", text="Type")
-        self.treeview.heading("creation date", text="Creation Date")
-        self.treeview.heading("last modification date", text="Modification Date")
-        self.treeview.heading("last access date", text="Last access Date")
-        self.treeview.heading("owner", text="Owner")
-        self.treeview.place(x=10, y=180)
+        self.list_of_result = ttk.Treeview(self.master, height=24, columns=("size",
+                                                                            "type",
+                                                                            "creation date",
+                                                                            "last modification date",
+                                                                            "last access date",
+                                                                            "owner"))
+        self.list_of_result.heading("#0", text="Archive")
+        self.list_of_result.heading("size", text="Size")
+        self.list_of_result.heading("type", text="Type")
+        self.list_of_result.heading("creation date", text="Creation Date")
+        self.list_of_result.heading("last modification date", text="Modification Date")
+        self.list_of_result.heading("last access date", text="Last access Date")
+        self.list_of_result.heading("owner", text="Owner")
+        self.list_of_result.place(x=10, y=180)
 
     def valid_date_message_error(self):
         """
@@ -362,6 +367,7 @@ class SearchMenu(tk.Frame):
                                                                                "end_date": get_creation_end_date}})
                 else:
                     self.valid_date_message_error()
+                    self.error = False
             if not self.modification_date:
                 get_modification_start_date = self.modification_date_value.get()
                 get_modification_end_date = self.modification_date_end_value.get()
@@ -374,16 +380,19 @@ class SearchMenu(tk.Frame):
                 self._search_criteria.set_search_filter({"last_access_date": {"start_date": get_last_start_date,
                                                                               "end_date": get_last_end_date}})
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
-        if list_d:
-            for value in list_d:
-                self.treeview.insert("", tk.END, text=value.get_file_name(),
-                                     values=(str(int(value.get_file_size()) / 1000000),
-                                             value.get_file_type(),
-                                             time.asctime(time.localtime(value.get_creation_time())),
-                                             time.asctime(time.localtime(value.get_last_modification_date())),
-                                             time.asctime(time.localtime(value.get_last_modification_date())), ""))
+        if not self.error:
+            self.list_of_result.insert("", tk.END, text="No results found", values="")
         else:
-            self.treeview.insert("", tk.END, text="No results found", values="")
+            if list_d:
+                for value in list_d:
+                    self.list_of_result.insert("", tk.END, text=value.get_file_name(),
+                                               values=(str(int(value.get_file_size()) / 1000000),
+                                               value.get_file_type(),
+                                               time.asctime(time.localtime(value.get_creation_time())),
+                                               time.asctime(time.localtime(value.get_last_modification_date())),
+                                               time.asctime(time.localtime(value.get_last_modification_date())), ""))
+            else:
+                self.list_of_result.insert("", tk.END, text="No results found", values="")
 
 
 def main():
@@ -391,8 +400,9 @@ def main():
     modification_date = True
     creation_date = True
     last_date = True
+    error = True
     root = tk.Tk()
-    SearchMenu(root, hidden, modification_date, creation_date, last_date)
+    SearchMenu(root, hidden, modification_date, creation_date, last_date, error)
     root.mainloop()
 
 
