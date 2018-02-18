@@ -9,7 +9,7 @@ from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 
 
 @pytest.mark.search_engine
-def test_a_search_is_created_withempty_search_criteria():
+def test_a_search_is_created_with_empty_search_criteria():
     """
     testing that search object is being created
     :return:

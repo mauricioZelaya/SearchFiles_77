@@ -44,3 +44,4 @@ class File(Asset):
         :return:
         """
         self._file_type = file_type
+

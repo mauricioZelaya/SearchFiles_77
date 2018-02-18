@@ -57,6 +57,7 @@ class Search(object):
                     file.set_file_name(file_name)
                     file.set_is_directory(False)
                     file.set_file_size(os.path.getsize(file_name))
+                    file.set_file_owner_name(utils.get_file_owner(file_name))
                     list_dir.append(file)
         LOGGER.info("getting all the directories and files from path START")
         return list_dir
@@ -129,6 +130,11 @@ class Search(object):
                                                                                 (start_modification_date),
                                                                                 utils.date_to_epoch_time
                                                                                 (end_modification_date))
+
+        if not filter_list['owner_name'] is None:
+            basic_search_result_list = self.advanced_search_by_owner(basic_search_result_list,
+                                                                     filter_list['owner_name'])
+
         return basic_search_result_list
 
     def advanced_search_by_creation_time(self, basic_search_result_list, start_date, end_date):
@@ -178,3 +184,20 @@ class Search(object):
                 list_of_found.append(result)
                 self._total_of_matches += 1
         return list_of_found
+
+    def advanced_search_by_owner(self, basic_search_result_list, file_owner_to_search):
+        """
+
+        :param basic_search_result_list:
+        :param file_owner_to_search:
+        :return:
+        """
+        list_of_found = []
+        self._total_of_matches = 0
+        for result_in_basic_search in basic_search_result_list:
+            if result_in_basic_search.get_file_owner_name() == file_owner_to_search:
+                list_of_found.append(result_in_basic_search)
+                self._total_of_matches += 1
+        return list_of_found
+
+
