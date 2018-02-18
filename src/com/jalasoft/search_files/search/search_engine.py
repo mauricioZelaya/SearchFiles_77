@@ -135,6 +135,9 @@ class Search(object):
             basic_search_result_list = self.advanced_search_by_owner(basic_search_result_list,
                                                                      filter_list['owner_name'])
 
+        if not filter_list['size'] in None:
+            basic_search_result_list = self.advanced_search_by_size(basic_search_result_list, filter_list['owner_name'])
+
         return basic_search_result_list
 
     def advanced_search_by_creation_time(self, basic_search_result_list, start_date, end_date):
@@ -199,5 +202,29 @@ class Search(object):
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
         return list_of_found
+
+    def advanced_search_by_size(self, basic_search_result_list, file_size_criteria):
+        """
+        
+        :param basic_search_result_list:
+        :param file_size_criteria:
+        :return:
+        """
+        list_of_found = []
+        self._total_of_matches = 0
+        for result_in_basic_search in basic_search_result_list:
+            if file_size_criteria == '<10' and 0 >= result_in_basic_search.get_file_size <= 10000000:
+                list_of_found.append(result_in_basic_search)
+                self._total_of_matches += 1
+            elif file_size_criteria == '<100' and 10000000 > result_in_basic_search.get_file_size <= 100000000:
+                list_of_found.append(result_in_basic_search)
+                self._total_of_matches += 1
+            elif file_size_criteria == '<100' and result_in_basic_search.get_file_size > 100000000:
+                list_of_found.append(result_in_basic_search)
+                self._total_of_matches += 1
+
+        return list_of_found
+
+
 
 
