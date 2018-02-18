@@ -16,6 +16,14 @@ class Asset(object):
         self.is_directory = False
         self._file_owner_name = ''
 
+    def set_file_name(self, file_name):
+        """
+
+        :param file_name:
+        :return:
+        """
+        self._file_name = file_name
+
     def get_file_name(self):
         """
 
