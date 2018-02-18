@@ -205,7 +205,7 @@ class Search(object):
 
     def advanced_search_by_size(self, basic_search_result_list, file_size_criteria):
         """
-        
+
         :param basic_search_result_list:
         :param file_size_criteria:
         :return:
