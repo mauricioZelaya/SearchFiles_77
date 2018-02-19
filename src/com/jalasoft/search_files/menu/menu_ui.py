@@ -432,16 +432,16 @@ class SearchMenu(tk.Frame):
                 self.list_of_result.insert("", tk.END, text="No results found", values="")
 
 
-def main():
-    hidden = True
-    modification_date = True
-    creation_date = True
-    last_date = True
-    error = True
-    root = tk.Tk()
-    SearchMenu(root, hidden, modification_date, creation_date, last_date, error)
-    root.mainloop()
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     hidden = True
+#     modification_date = True
+#     creation_date = True
+#     last_date = True
+#     error = True
+#     root = tk.Tk()
+#     SearchMenu(root, hidden, modification_date, creation_date, last_date, error)
+#     root.mainloop()
+#
+#
+# if __name__ == '__main__':
+#     main()

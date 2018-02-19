@@ -28,7 +28,8 @@ class SearchCriteria(object):
             "extension": None,
             "file_name": None,
             "directory_name": None,
-            "owner_name": None
+            "owner_name": None,
+            "text_value": None
         }
         LOGGER.info("valid search filter dictionary was created: {}".format(self._search_filter))
 

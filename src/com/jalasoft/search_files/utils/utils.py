@@ -5,7 +5,7 @@ import os
 import calendar
 import datetime
 import time
-# import win32security
+import win32security
 import config.config as config
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
@@ -128,16 +128,24 @@ def date_to_epoch_time(date_to_convert):
     return convert_to_epoch_time(int(init_date[1]), int(init_date[2]), int(init_date[0]))
 
 
-# def get_file_owner(filename):
-#     """
-#
-#     :param filename:
-#     :return: return domain\owner_name string for a given file
-#     """
-#     sd = win32security.GetFileSecurity(filename, win32security.OWNER_SECURITY_INFORMATION)
-#     owner_sid = sd.GetSecurityDescriptorOwner()
-#     name, domain, type = win32security.LookupAccountSid(None, owner_sid)
-#
-#     return domain + '\\' + name
+def get_file_owner(filename):
+    """
+
+    :param filename:
+    :return: return domain\owner_name string for a given file
+    """
+    sd = win32security.GetFileSecurity(filename, win32security.OWNER_SECURITY_INFORMATION)
+    owner_sid = sd.GetSecurityDescriptorOwner()
+    name, domain, type = win32security.LookupAccountSid(None, owner_sid)
+
+    return domain + '\\' + name
 
 
+def get_file_content(file_path):
+    """
+    method to returt the content of a file sent in the parameters
+    :param file_path:
+    :return: return the content of the file
+    """
+    file_to_open = open(file_path, 'r')
+    return file_to_open.read()
