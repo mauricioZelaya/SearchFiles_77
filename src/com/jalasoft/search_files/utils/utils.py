@@ -5,7 +5,7 @@ import os
 import calendar
 import datetime
 import time
-import win32security
+# import win32security
 import config.config as config
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
@@ -19,8 +19,8 @@ def are_date_valid(initial_date, end_date):
     """
 
     try:
-        initial_date = time.strptime(initial_date, "%d/%m/%Y")
-        end_date = time.strptime(end_date, "%d/%m/%Y")
+        initial_date = time.strptime(initial_date, "%m/%d/%Y")
+        end_date = time.strptime(end_date, "%m/%d/%Y")
         if end_date > initial_date:
             LOGGER.info("The dates are correct: {}, {}".format(initial_date, end_date))
             return True
@@ -128,16 +128,16 @@ def date_to_epoch_time(date_to_convert):
     return convert_to_epoch_time(int(init_date[1]), int(init_date[2]), int(init_date[0]))
 
 
-def get_file_owner(filename):
-    """
-
-    :param filename:
-    :return: return domain\owner_name string for a given file
-    """
-    sd = win32security.GetFileSecurity(filename, win32security.OWNER_SECURITY_INFORMATION)
-    owner_sid = sd.GetSecurityDescriptorOwner()
-    name, domain, type = win32security.LookupAccountSid(None, owner_sid)
-
-    return domain + '\\' + name
+# def get_file_owner(filename):
+#     """
+#
+#     :param filename:
+#     :return: return domain\owner_name string for a given file
+#     """
+#     sd = win32security.GetFileSecurity(filename, win32security.OWNER_SECURITY_INFORMATION)
+#     owner_sid = sd.GetSecurityDescriptorOwner()
+#     name, domain, type = win32security.LookupAccountSid(None, owner_sid)
+#
+#     return domain + '\\' + name
 
 

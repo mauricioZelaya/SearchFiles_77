@@ -50,12 +50,11 @@ class SearchMenu(tk.Frame):
         self.create_textbox()
         self.create_buttons()
         self.create_checkbox()
-        # self.create_listbox()
         self.result_of_search()
 
     def create_labels(self):
         """
-        all Labels
+        all Labels that are displayed for basic search
         """
         self.text_menu = tk.Label(self.master, text="Add Path and Key Name")
         self.text_menu.place(x=10, y=10)
@@ -66,7 +65,7 @@ class SearchMenu(tk.Frame):
 
     def create_textbox(self):
         """
-        all Textbox
+        all Textbox that are displayed for basic search
         """
         self.path_str = tk.StringVar()
         self.path_entry = tk.Entry(self.master, textvariable=self.path_str, width=30, state='disabled')
@@ -77,7 +76,7 @@ class SearchMenu(tk.Frame):
 
     def create_buttons(self):
         """
-        all buttons
+        all buttons that are displayed for basic search
         """
         self.search = tk.Button(self.master, text="Search", command=self.search_criteria)
         self.search.place(x=200, y=100)
@@ -86,16 +85,9 @@ class SearchMenu(tk.Frame):
         self.path = tk.Button(self.master, text="Select Path", command=self.select_path_from_button)
         self.path.place(x=350, y=40)
 
-    def create_listbox(self):
-        """
-        all Labels
-        """
-        self.listbox = tk.Listbox(self.master, width=41, height=30, bg='white')
-        self.listbox.place(x=10, y=140)
-
     def create_checkbox(self):
         """
-        all buttons
+        Checkbox that determine if a basic search or advance search
         """
         self.advanced = tk.Checkbutton(self.master, text="Advanced", variable=None, onvalue=True,
                                        command=self.hidden_with_checkbox)
@@ -103,28 +95,28 @@ class SearchMenu(tk.Frame):
 
     def select_creation_date_button(self):
         """
-        all Labels
+        creation button: search files of a certain day of creation
         """
         self.create_date = tk.Button(self.master, text="Creation day: ", command=self.enable_creation_date)
         self.create_date.place(x=470, y=10)
 
     def select_modification_date_button(self):
         """
-        all Labels
+        modification button: search files of a certain day of modification
         """
         self.modify_date = tk.Button(self.master, text="Modification day: ", command=self.enable_modification_date)
         self.modify_date.place(x=730, y=10)
 
     def select_last_date_button(self):
         """
-        all Labels
+        last date button: search files of a certain day of last access
         """
         self.the_last_date = tk.Button(self.master, text="Last Access day: ", command=self.enable_last_date)
         self.the_last_date.place(x=990, y=10)
 
     def hidden_labels(self):
         """
-        all Labels
+        Labels that are hidden for creation button
         """
         self.text_start_date = tk.Label(self.master, text="Start Date")
         self.text_start_date.place(x=470, y=42)
@@ -133,7 +125,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_labels_modification_date(self):
         """
-        all Labels
+        Labels that are hidden for modification button
         """
         self.text_start_date_modify = tk.Label(self.master, text="Start Date")
         self.text_start_date_modify.place(x=730, y=42)
@@ -142,7 +134,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_labels_last_date(self):
         """
-        all Labels
+        Labels that are hidden for last access button
         """
         self.text_start_date_last = tk.Label(self.master, text="Start Date")
         self.text_start_date_last.place(x=990, y=42)
@@ -151,7 +143,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_creation_date(self):
         """
-        all Labels
+        calendar for creation date button
         """
         self.create_date_value = tk.StringVar()
         self.creation_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
@@ -164,7 +156,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_modification_date(self):
         """
-        all Labels
+        calendar for modification date button
         """
         self.modification_date_value = tk.StringVar()
         self.modification_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
@@ -177,7 +169,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_last_date(self):
         """
-        all Labels
+        calendar for last access date button
         """
         self.last_date_value = tk.StringVar()
         self.last_cal_start = DateEntry(self.master, width=12, background='darkblue', foreground='white',
@@ -190,22 +182,21 @@ class SearchMenu(tk.Frame):
 
     def hidden_size_radiobutton(self):
         """
-        all Labels
+        Radio button for select an specific size
         """
         self.text_size = tk.Label(self.master, text="Size")
         self.text_size.place(x=470, y=90)
-        self.var = tk.IntVar()
-        self.radio_one = tk.Radiobutton(self.master, text="0 to 10 Mb", variable=self.var, value=1, command=None)
+        self.var = tk.StringVar()
+        self.radio_one = tk.Radiobutton(self.master, text="0 to 10 Mb", variable=self.var, value='<10')
         self.radio_one.place(x=470, y=110)
-        self.radio_two = tk.Radiobutton(self.master, text="11 to 100 Mb", variable=self.var, value=2, command=None)
+        self.radio_two = tk.Radiobutton(self.master, text="11 to 100 Mb", variable=self.var, value='<100')
         self.radio_two.place(x=470, y=130)
-        self.radio_three = tk.Radiobutton(self.master, text="Greater than 101 Mb", variable=self.var, value=3,
-                                          command=None)
+        self.radio_three = tk.Radiobutton(self.master, text="Greater than 101 Mb", variable=self.var, value='>100')
         self.radio_three.place(x=470, y=150)
 
     def hidden_word_in_file(self):
         """
-        all Labels
+        Text box and label for word in file option
         """
         self.text_world_in_file = tk.Label(self.master, text="Word in file (only text files: )")
         self.text_world_in_file.place(x=730, y=90)
@@ -213,9 +204,19 @@ class SearchMenu(tk.Frame):
         self.word_in_file = tk.Entry(self.master, textvariable=self.word, width=20)
         self.word_in_file.place(x=730, y=110)
 
+    def hidden_owner(self):
+        """
+        Text box and label for owner option
+        """
+        self.text_owner = tk.Label(self.master, text="Insert Owner")
+        self.text_owner.place(x=990, y=90)
+        self.word_owner = tk.StringVar()
+        self.word_owner_insert = tk.Entry(self.master, textvariable=self.word_owner, width=20)
+        self.word_owner_insert.place(x=990, y=110)
+
     def hidden_widgets(self):
         """
-        UI configuration
+        clear the advance mode with checkbox
         """
         self.create_date.destroy()
         self.modify_date.destroy()
@@ -226,10 +227,12 @@ class SearchMenu(tk.Frame):
         self.text_size.destroy()
         self.text_world_in_file.destroy()
         self.word_in_file.destroy()
+        self.text_owner.destroy()
+        self.word_owner_insert.destroy()
 
     def hidden_creation_calendar(self):
         """
-        UI configuration
+        clear the calendar for creation button
         """
         self.text_start_date.destroy()
         self.text_end_date.destroy()
@@ -238,7 +241,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_modification_calendar(self):
         """
-        UI configuration
+        clear the calendar for modification button
         """
         self.text_start_date_modify.destroy()
         self.text_end_date_modify.destroy()
@@ -247,7 +250,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_last_calendar(self):
         """
-        UI configuration
+        clear the calendar for last access button
         """
         self.text_start_date_last.destroy()
         self.text_end_date_last.destroy()
@@ -256,7 +259,7 @@ class SearchMenu(tk.Frame):
 
     def hidden_with_checkbox(self):
         """
-        UI configuration
+        display the all options for advance mode with checkbox
         """
         if self.hidden:
             self.select_creation_date_button()
@@ -264,6 +267,7 @@ class SearchMenu(tk.Frame):
             self.select_last_date_button()
             self.hidden_size_radiobutton()
             self.hidden_word_in_file()
+            self.hidden_owner()
         else:
             self.hidden_widgets()
             if not self.creation_date:
@@ -279,7 +283,7 @@ class SearchMenu(tk.Frame):
 
     def enable_creation_date(self):
         """
-        UI configuration
+        display the labels and calendar for creation date button
         """
         if self.creation_date:
             self.hidden_labels()
@@ -290,7 +294,7 @@ class SearchMenu(tk.Frame):
 
     def enable_modification_date(self):
         """
-        UI configuration
+        display the labels and calendar for modification date button
         """
         if self.modification_date:
             self.hidden_modification_date()
@@ -301,7 +305,7 @@ class SearchMenu(tk.Frame):
 
     def enable_last_date(self):
         """
-        UI configuration
+        display the labels and calendar for last access date button
         """
         if self.last_date:
             self.hidden_last_date()
@@ -312,20 +316,20 @@ class SearchMenu(tk.Frame):
 
     def select_path_from_button(self):
         """
-        UI configuration
+        capture the path from file dialog
         """
         self.filename = filedialog.askdirectory()
         self.path_str.set(self.filename)
 
     def exit_application(self):
         """
-        UI configuration
+        exit of the aplication
         """
         self.master.destroy()
 
     def result_of_search(self):
         """
-        UI configuration
+        display the all result of search
         """
         self.list_of_result = ttk.Treeview(self.master, height=24, columns=("size",
                                                                             "type",
@@ -344,14 +348,22 @@ class SearchMenu(tk.Frame):
 
     def valid_date_message_error(self):
         """
-        UI configuration
+        display the validation dates with a message box
         """
         messagebox.showerror("Error", "The end final date is before initial date or invalid date format")
 
+    def clear_result(self):
+        """
+        clear the result in the Treeview widget
+        """
+        for i in self.list_of_result.get_children():
+            self.list_of_result.delete(i)
+
     def search_criteria(self):
         """
-        UI configuration
+        this method create all search criteria and return the all result of search
         """
+        list_d = []
         get_path = self.path_str.get()
         get_key = self.key_str.get()
         self._search_criteria.set_search_filter({"path": get_path})
@@ -371,30 +383,53 @@ class SearchMenu(tk.Frame):
             if not self.modification_date:
                 get_modification_start_date = self.modification_date_value.get()
                 get_modification_end_date = self.modification_date_end_value.get()
-                self._search_criteria.set_search_filter({"modification_date": {
-                    "start_date": get_modification_start_date,
-                    "end_date": get_modification_end_date}})
+                valid_date_modification = utils.are_date_valid(get_modification_start_date, get_modification_end_date)
+                if valid_date_modification:
+                    self._search_criteria.set_search_filter({"modification_date": {
+                        "start_date": get_modification_start_date,
+                        "end_date": get_modification_end_date}})
+                else:
+                    self.valid_date_message_error()
+                    self.error = False
             if not self.last_date:
                 get_last_start_date = self.last_date_value.get()
                 get_last_end_date = self.last_date_end_value.get()
-                self._search_criteria.set_search_filter({"last_access_date": {"start_date": get_last_start_date,
-                                                                              "end_date": get_last_end_date}})
+                valid_date_end = utils.are_date_valid(get_last_start_date, get_last_end_date)
+                if valid_date_end:
+                    self._search_criteria.set_search_filter({"last_access_date": {"start_date": get_last_start_date,
+                                                                                  "end_date": get_last_end_date}})
+                else:
+                    self.valid_date_message_error()
+                    self.error = False
+            radio_value = self.var.get()
+            print(radio_value)
+            if radio_value == '<10' or radio_value == '<100' or radio_value == '>100':
+                self._search_criteria.set_search_filter({"size": radio_value})
+            owner_value = self.word_owner.get()
+            if owner_value != "":
+                self._search_criteria.set_search_filter({"owner_name": owner_value})
+            text_value = self.word.get()
+            if text_value != "":
+                self._search_criteria.set_search_filter({"text_value": text_value})
+
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
         if not self.error:
+            self.clear_result()
             self.list_of_result.insert("", tk.END, text="No results found", values="")
         else:
             if list_d:
+                self.clear_result()
                 for value in list_d:
                     self.list_of_result.insert("", tk.END, text=value.get_file_name(),
-                                               values=(str(int(value.get_file_size()) / 1000000) + " Mb",
+                                               values=(str((value.get_file_size())) + " Bytes",
                                                value.get_file_type(),
                                                time.asctime(time.localtime(value.get_creation_time())),
                                                time.asctime(time.localtime(value.get_last_modification_date())),
                                                time.asctime(time.localtime(value.get_last_modification_date())),
                                                        value.get_file_owner_name()))
             else:
+                self.clear_result()
                 self.list_of_result.insert("", tk.END, text="No results found", values="")
-
 
 
 def main():
