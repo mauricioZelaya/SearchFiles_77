@@ -14,6 +14,15 @@ class Asset(object):
         self._file_size = 0
         self._file_type = ''
         self.is_directory = False
+        self._file_owner_name = ''
+
+    def set_file_name(self, file_name):
+        """
+
+        :param file_name:
+        :return:
+        """
+        self._file_name = file_name
 
     def get_file_name(self):
         """
@@ -64,3 +73,17 @@ class Asset(object):
         """
         return self._file_type
 
+    def get_file_owner_name(self):
+        """
+
+        :return:
+        """
+        return self._file_owner_name
+
+    def set_file_owner_name(self, file_owner):
+        """
+
+        :param file_owner:
+        :return: None
+        """
+        self._file_owner_name = file_owner

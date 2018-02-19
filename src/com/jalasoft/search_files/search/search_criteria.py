@@ -4,6 +4,7 @@ This module will contain the main criteria for a specific search
 from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
 
+
 class SearchCriteria(object):
     """
      This class contains the methods that will be used to search.
@@ -27,7 +28,7 @@ class SearchCriteria(object):
             "extension": None,
             "file_name": None,
             "directory_name": None,
-            "hidden": None
+            "owner_name": None
         }
         LOGGER.info("valid search filter dictionary was created: {}".format(self._search_filter))
 
