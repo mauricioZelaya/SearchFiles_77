@@ -386,11 +386,12 @@ class SearchMenu(tk.Frame):
             if list_d:
                 for value in list_d:
                     self.list_of_result.insert("", tk.END, text=value.get_file_name(),
-                                               values=(str(int(value.get_file_size()) / 1000000),
+                                               values=(str(int(value.get_file_size()) / 1000000) + " Mb",
                                                value.get_file_type(),
                                                time.asctime(time.localtime(value.get_creation_time())),
                                                time.asctime(time.localtime(value.get_last_modification_date())),
-                                               time.asctime(time.localtime(value.get_last_modification_date())), ""))
+                                               time.asctime(time.localtime(value.get_last_modification_date())),
+                                                       value.get_file_owner_name()))
             else:
                 self.list_of_result.insert("", tk.END, text="No results found", values="")
 

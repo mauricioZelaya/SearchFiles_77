@@ -219,7 +219,7 @@ class Search(object):
             elif file_size_criteria == '<100' and 10000000 > result_in_basic_search.get_file_size <= 100000000:
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
-            elif file_size_criteria == '<100' and result_in_basic_search.get_file_size > 100000000:
+            elif file_size_criteria == '>100' and result_in_basic_search.get_file_size > 100000000:
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
 
