@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from src.com.jalasoft.search_files.menu.menu_ui import SearchMenu
+from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
 def main():
     hidden = True
@@ -14,4 +15,6 @@ def main():
 
 
 if __name__ == '__main__':
+    LOGGER.info("starting application START")
     main()
+    LOGGER.info("starting application START")
