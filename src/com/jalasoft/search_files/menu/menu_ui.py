@@ -13,6 +13,7 @@ import time
 from src.com.jalasoft.search_files.search.search_engine import Search
 from src.com.jalasoft.search_files.search.search_criteria import SearchCriteria
 from src.com.jalasoft.search_files.utils import utils
+from src.com.jalasoft.search_files.utils.logging import LOGGER as LOGGER
 
 
 class SearchMenu(tk.Frame):
@@ -363,6 +364,7 @@ class SearchMenu(tk.Frame):
         """
         this method create all search criteria and return the all result of search
         """
+        LOGGER.info("filling fields for search criteria START")
         list_d = []
         get_path = self.path_str.get()
         get_key = self.key_str.get()
@@ -412,13 +414,24 @@ class SearchMenu(tk.Frame):
             if text_value != "":
                 self._search_criteria.set_search_filter({"text_value": text_value})
 
+        LOGGER.info("filling fields for search criteria END")
+
+        LOGGER.info("sending search parameters to search engine START")
+
         list_d = self.search_obj.create_list_of_ocurrences(self._search_criteria)
+
+        LOGGER.info("sending search parameters to search engine END")
+
         if not self.error:
+            LOGGER.info("cleaning search list START")
             self.clear_result()
             self.list_of_result.insert("", tk.END, text="No results found", values="")
+            LOGGER.info("cleaning search list END")
+
         else:
             if list_d:
                 self.clear_result()
+                LOGGER.info("populating results START")
                 for value in list_d:
                     self.list_of_result.insert("", tk.END, text=value.get_file_name(),
                                                values=(str((value.get_file_size())) + " Bytes",
@@ -427,21 +440,7 @@ class SearchMenu(tk.Frame):
                                                time.asctime(time.localtime(value.get_last_modification_date())),
                                                time.asctime(time.localtime(value.get_last_modification_date())),
                                                        value.get_file_owner_name()))
+                LOGGER.info("populating results END")
             else:
                 self.clear_result()
                 self.list_of_result.insert("", tk.END, text="No results found", values="")
-
-
-def main():
-    hidden = True
-    modification_date = True
-    creation_date = True
-    last_date = True
-    error = True
-    root = tk.Tk()
-    SearchMenu(root, hidden, modification_date, creation_date, last_date, error)
-    root.mainloop()
-
-
-if __name__ == '__main__':
-    main()

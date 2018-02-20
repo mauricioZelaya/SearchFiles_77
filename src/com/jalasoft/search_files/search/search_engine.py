@@ -57,9 +57,9 @@ class Search(object):
                     file.set_file_name(file_name)
                     file.set_is_directory(False)
                     file.set_file_size(os.path.getsize(file_name))
-                    # file.set_file_owner_name(utils.get_file_owner(file_name))
+                    file.set_file_owner_name(utils.get_file_owner(file_name))
                     list_dir.append(file)
-        LOGGER.info("getting all the directories and files from path START")
+        LOGGER.info("getting all the directories and files from path END")
         return list_dir
 
     def create_list_of_ocurrences(self, search_criteria):
@@ -67,11 +67,15 @@ class Search(object):
 
         :return:
         """
+        LOGGER.info("getting basic results of search START")
         basic_result_list = self.basic_results(search_criteria.get_search_filter()['file_name'])
+        LOGGER.info("getting basic results of search END")
+        LOGGER.info("evaluating if advanced search is needed START")
         if not search_criteria.get_search_filter()['advance_flag']:
             return basic_result_list
         else:
             return self.verify_advanced_filters(search_criteria, basic_result_list)
+        LOGGER.info("evaluating if advanced search is needed END")
 
     def basic_results(self, file_keyword):
         """
@@ -98,6 +102,7 @@ class Search(object):
         :param search_criteria: advanced filters for the search
         :return:
         """
+        LOGGER.info("evaluating advanced search filters START")
         filter_list = search_criteria.get_search_filter()
         basic_search_result_list = basic_result_list
         if not filter_list['creation_date']['start_date'] is None and not \
@@ -138,6 +143,12 @@ class Search(object):
         if not filter_list['size'] is None:
             basic_search_result_list = self.advanced_search_by_size(basic_search_result_list, filter_list['size'])
 
+        if not filter_list['text_value'] is None:
+            basic_search_result_list = self.advanced_search_content_in_file(basic_search_result_list,
+                                                                            filter_list['text_value'])
+
+        LOGGER.info("evaluating advanced search filters END")
+
         return basic_search_result_list
 
     def advanced_search_by_creation_time(self, basic_search_result_list, start_date, end_date):
@@ -148,12 +159,15 @@ class Search(object):
         :param end_date:
         :return:
         """
+        LOGGER.info("evaluating advanced search filtering by creation date START")
         list_of_found = []
         self._total_of_matches = 0
         for result in basic_search_result_list:
             if start_date <= result.get_creation_time() <= end_date:
                 list_of_found.append(result)
                 self._total_of_matches += 1
+
+        LOGGER.info("evaluating advanced search filtering by creation date END")
         return list_of_found
 
     def advanced_search_by_modification_time(self, basic_search_result_list, start_date, end_date):
@@ -164,12 +178,16 @@ class Search(object):
         :param end_date:
         :return:
         """
+        LOGGER.info("evaluating advanced search filtering by modification date START")
         list_of_found = []
         self._total_of_matches = 0
         for result in basic_search_result_list:
             if start_date <= result.get_last_modification_date() <= end_date:
                 list_of_found.append(result)
                 self._total_of_matches += 1
+
+        LOGGER.info("evaluating advanced search filtering by modification date END")
+
         return list_of_found
 
     def advanced_search_by_last_access_date(self, basic_search_result_list, start_date, end_date):
@@ -180,12 +198,15 @@ class Search(object):
         :param end_date:
         :return:
         """
+        LOGGER.info("evaluating advanced search filtering by last access date START")
         list_of_found = []
         self._total_of_matches = 0
         for result in basic_search_result_list:
             if start_date <= result.get_last_access_time() <= end_date:
                 list_of_found.append(result)
                 self._total_of_matches += 1
+
+        LOGGER.info("evaluating advanced search filtering by modification date END")
         return list_of_found
 
     def advanced_search_by_owner(self, basic_search_result_list, file_owner_to_search):
@@ -195,12 +216,15 @@ class Search(object):
         :param file_owner_to_search:
         :return:
         """
+        LOGGER.info("evaluating advanced search filtering by owner START")
         list_of_found = []
         self._total_of_matches = 0
         for result_in_basic_search in basic_search_result_list:
             if result_in_basic_search.get_file_owner_name() == file_owner_to_search:
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
+
+        LOGGER.info("evaluating advanced search filtering by owner END")
         return list_of_found
 
     def advanced_search_by_size(self, basic_search_result_list, file_size_criteria):
@@ -210,19 +234,42 @@ class Search(object):
         :param file_size_criteria:
         :return:
         """
+        LOGGER.info("evaluating advanced search filtering by size START")
         list_of_found = []
         self._total_of_matches = 0
         for result_in_basic_search in basic_search_result_list:
-            if file_size_criteria == '<10' and 0 >= result_in_basic_search.get_file_size() <= 10000000:
+            if file_size_criteria == '<10' and result_in_basic_search.get_file_size() >=0 \
+                    and result_in_basic_search.get_file_size() <= 1000000:
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
-            elif file_size_criteria == '<100' and 10000000 > result_in_basic_search.get_file_size() <= 100000000:
+            elif file_size_criteria == '<100' and result_in_basic_search.get_file_size() > 1000000 \
+                    and result_in_basic_search.get_file_size() <= 100000000:
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
             elif file_size_criteria == '>100' and result_in_basic_search.get_file_size() > 100000000:
                 list_of_found.append(result_in_basic_search)
                 self._total_of_matches += 1
 
+        LOGGER.info("evaluating advanced search filtering by size END")
+        return list_of_found
+
+    def advanced_search_content_in_file(self, basic_search_result_list, text_in_file):
+        """
+
+        :param basic_search_result_list:
+        :param text_in_file:
+        :return:
+        """
+        LOGGER.info("evaluating advanced search filtering by content inside the file START")
+        list_of_found = []
+        self._total_of_matches = 0
+        for result_in_basic_search in basic_search_result_list:
+            file_content = utils.get_file_content(result_in_basic_search.get_file_name())
+            if text_in_file in file_content:
+                list_of_found.append(result_in_basic_search)
+                self._total_of_matches += 1
+
+        LOGGER.info("evaluating advanced search filtering by content inside the file END")
         return list_of_found
 
 
